@@ -7,4 +7,3 @@ stub = function(func, to_stub, return_value) {
     new_function = eval(parse(text=function_text), env)
     assign(func, new_function, parent.frame())
 }
-
