@@ -34,3 +34,32 @@ test_that('stubs function with function', {
     # then
     expect_equal(g(10), 510)
 })
+
+test_that('stubs function from namespace', {
+    # given
+    f = function() mockery::get_function_source(function(x) x)
+
+    # before stubbing
+    expect_equal(trimws(f()), 'function(x) x')
+
+    # when
+    stub('f', 'mockery::get_function_source', 10)
+
+    # then
+    expect_equal(f(), 10)
+})
+
+test_that('does not stub other namespeaced functions', {
+    # given
+    f = function() {
+        a = mockery::get_function_source(function(x) x)
+        b = mockery::stub('a', 'b', 'c')
+        return(paste(a, b))
+    }
+
+    # when
+    stub('f', 'mockery::stub', 'hello there')
+
+    # then
+    expect_equal(f(), 'function(x) x\n hello there')
+})
