@@ -40,7 +40,7 @@ test_that('stubs function from namespace', {
     f = function() mockery::get_function_source(function(x) x)
 
     # before stubbing
-    expect_equal(trimws(f()), 'function(x) x')
+    expect_equal(trimws(f()), 'function(x)\n{\nx\n}')
 
     # when
     stub('f', 'mockery::get_function_source', 10)
@@ -61,5 +61,5 @@ test_that('does not stub other namespeaced functions', {
     stub('f', 'mockery::stub', 'hello there')
 
     # then
-    expect_equal(f(), 'function(x) x\n hello there')
+    expect_equal(f(), 'function(x)\n{\nx\n}\n hello there')
 })
