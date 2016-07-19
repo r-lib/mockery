@@ -1,11 +1,9 @@
 context('stub')
 
+a = 10
 f = function(x) x
+g = function(x) f(x) + a
 test_that('stubs function with return value', {
-    # given
-    a = 10
-    g = function(x) f(x) + a
-
     # before stubbing
     expect_equal(g(20), 30)
 
@@ -18,11 +16,13 @@ test_that('stubs function with return value', {
 
 test_that('values restored after test', {
     expect_equal(f(15), 15)
+    expect_equal(g(15), 25)
 })
 
 test_that('stubs function with function', {
     # given
     a = 10
+    f = function(x) x
     g = function(x) f(x) + a
 
     # before stubbing

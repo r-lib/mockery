@@ -1,6 +1,8 @@
+library(restorepoint)
+
 stub = function(func, to_stub, stub) {
     original_func = get(func, envir=parent.frame(), mode='function')
-    env = environment(original_func)
+    env = restorepoint::clone.environment(environment(original_func))
 
     if (grepl('::', to_stub)) {
         create_new_name = function(pkg, func) {
@@ -22,8 +24,8 @@ stub = function(func, to_stub, stub) {
         assign(to_stub, stub, env)
     }
 
-    function_text = get_function_source(original_func)
-    new_function = eval(parse(text=function_text), env)
-    assign(func, new_function, parent.frame())
+    environment(original_func) = env
+    assign(func, original_func, parent.frame())
+
 }
 
