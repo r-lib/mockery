@@ -6,7 +6,18 @@ library(testthat)
 expect_called = function(func, to_mock, expected_call_list) {
     original_func = get(func, envir=parent.frame(), mode='function')
     original_env = restorepoint::clone.environment(environment(original_func))
-    mock_func = get(to_mock, original_env)
+
+    if (grepl('::', to_mock)) {
+        mock_func = eval(parse(text=to_mock))
+        elements = strsplit(to_mock, '::')
+        to_mock = paste(elements[[1]][1], elements[[1]][2], sep='XXX')
+
+        create_new_name = create_create_new_name_function(to_mock, original_env)
+        assign('::', create_new_name, original_env)
+    } else {
+        mock_func = get(to_mock, original_env)
+    }
+
     mock_env = restorepoint::clone.environment(environment(mock_func))
 
     expect_call_equal = function(call_list) {
