@@ -3,7 +3,7 @@ A mocking library for R.
 
 ### Installation
 
-Start R
+From the R shell:
 
 ```.R
 > # If you don't have devtools installed yet:
@@ -16,7 +16,9 @@ Start R
 
 ### Testing
 
-Mockery is essentially a plugin for [testthat](github.com/hadley/testthat).
+Mockery is essentially a plugin for [testthat](github.com/hadley/testthat).  Please read testthat's excellent documentation for getting set up with testing.
+
+Mockery provides the capacity for stubbing out functions and for verifying function calls during testing. Additional functionality wil be forthcoming.  Please note any bugs or feature requests in github issues.
 
 #### Stubbing
 
