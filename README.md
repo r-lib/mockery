@@ -79,7 +79,7 @@ Mockery's `expect_called` function works like one of `testthat`'s expecations, a
 
 Note that unless the function was stubbed out as above, the function will still execute as before. If the function was stubbed out, the stub will behave correctly.  If the function is stubbed _after_ the expectation is set, the expectation will get overwritten.
 
-**stub**(func, to_mock, expected_call_list)
+**expect_called**(func, to_mock, expected_call_list)
 - func - The function you plan to call, and within which you want to verify a call to another function.
 - to_stub - A string that is the name of the function you want to verify a call to.
 - expected_call_list - This is the list of parameters you expect to be present in the function call. It can be a list with or without names. If it is a list _with_ names, it can be a partial list, i.e. it doesn't need to include all the parameters. Only the included parameters will be checked.
