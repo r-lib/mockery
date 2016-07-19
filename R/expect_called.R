@@ -4,8 +4,8 @@ library(testthat)
 # Works with named or unnamed call list.
 # If unnamed, must be complete call list, if named can be partial.
 expect_called = function(func, to_mock, expected_call_list) {
-    original_func = get(func, envir=parent.frame(), mode='function')
-    original_env = restorepoint::clone.environment(environment(original_func))
+    func_name = deparse(substitute(func))
+    original_env = restorepoint::clone.environment(environment(func))
 
     if (grepl('::', to_mock)) {
         mock_func = eval(parse(text=to_mock))
@@ -40,7 +40,7 @@ expect_called = function(func, to_mock, expected_call_list) {
     mocked_function = eval(parse(text=function_source), mock_env)
     assign(to_mock, mocked_function, original_env)
 
-    environment(original_func) = original_env
-    assign(func, original_func, parent.frame())
+    environment(func) = original_env
+    assign(func_name, func, parent.frame())
 }
 

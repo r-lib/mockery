@@ -6,7 +6,7 @@ test_that('expect called verifies call list', {
     f = function(x) g(y=1, z=2, x=(x + 1))
 
     # expect
-    mockery::expect_called('f', 'g', list(y=1, z=2, x=6))
+    mockery::expect_called(f, 'g', list(y=1, z=2, x=6))
 
     # when
     f(5)
@@ -18,7 +18,7 @@ test_that('expect called verifies with partial call list', {
     f = function(x) g(y=1, z=2, x=(x + 1))
 
     # expect
-    mockery::expect_called('f', 'g', list(y=1, x=6))
+    mockery::expect_called(f, 'g', list(y=1, x=6))
 
     # when
     f(5)
@@ -30,7 +30,7 @@ test_that('expect called verifies with unnamed call list', {
     f = function(x) g(y=1, z=2, x=(x + 1))
 
     # expect
-    mockery::expect_called('f', 'g', list(1, 2, 6))
+    mockery::expect_called(f, 'g', list(1, 2, 6))
 
     # when
     f(5)
@@ -41,7 +41,7 @@ test_that('expect called works with namespaced funtions', {
     g = function(x, y) testthat::expect_equal(x, y)
 
     # expect
-    mockery::expect_called('g', 'testthat::expect_equal', list(1, 1))
+    mockery::expect_called(g, 'testthat::expect_equal', list(1, 1))
 
     # when
     g(1, 1)

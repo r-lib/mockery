@@ -8,7 +8,7 @@ test_that('stubs function with return value', {
     expect_equal(g(20), 30)
 
     # when
-    stub('g', 'f', 100)
+    stub(g, 'f', 100)
 
     # then
     expect_equal(g(20), 110)
@@ -29,7 +29,7 @@ test_that('stubs function with function', {
     expect_equal(g(20), 30)
 
     # when
-    stub('g', 'f', function(...) 500)
+    stub(g, 'f', function(...) 500)
 
     # then
     expect_equal(g(10), 510)
@@ -43,7 +43,7 @@ test_that('stubs function from namespace', {
     expect_equal(trimws(f()), 'function(x)\n{\nx\n}')
 
     # when
-    stub('f', 'mockery::get_function_source', 10)
+    stub(f, 'mockery::get_function_source', 10)
 
     # then
     expect_equal(f(), 10)
@@ -58,7 +58,7 @@ test_that('does not stub other namespeaced functions', {
     }
 
     # when
-    stub('f', 'mockery::stub', 'hello there')
+    stub(f, 'mockery::stub', 'hello there')
 
     # then
     expect_equal(f(), 'function(x)\n{\nx\n}\n hello there')
