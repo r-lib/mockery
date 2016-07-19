@@ -26,8 +26,14 @@ expect_called = function(func, to_mock, expected_call_list) {
         } else {
             call_list = tail(call_list, -1)
         }
-        call_list = lapply(names(call_list),
-                           function(x) eval(parse(text=x), parent.frame(3)))
+
+        if (length(names(call_list)) != 0) {
+            call_list = lapply(names(call_list),
+                            function(x) eval(parse(text=x), parent.frame(3)))
+        } else {
+            call_list = lapply(call_list,
+                            function(x) eval(parse(text=x), parent.frame(4)))
+        }
         names(call_list) = names(expected_call_list)
         testthat::expect_equal(call_list, expected_call_list)
     }
