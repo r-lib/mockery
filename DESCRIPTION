@@ -4,5 +4,7 @@ Title: mockery
 Description: A mocking library for R.
 Author: Noam Finkelstein
 Maintainer: Noam Finkelstein <noam.finkelstein@jhu.edu>
-Suggests: testthat
+Imports:
+    testthat,
+    restorepoint
 

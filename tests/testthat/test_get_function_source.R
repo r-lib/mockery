@@ -1,4 +1,4 @@
-context('get_function_source')
+testthat::context('get_function_source')
 
 test_that('gets oneline function source', {
     # given

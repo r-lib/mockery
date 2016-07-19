@@ -1,4 +1,4 @@
-context('stub')
+testthat::context('stub')
 
 a = 10
 f = function(x) x
