@@ -26,6 +26,5 @@ stub = function(func, to_stub, stub) {
 
     environment(original_func) = env
     assign(func, original_func, parent.frame())
-
 }
 
