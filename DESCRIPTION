@@ -6,5 +6,4 @@ Author: Noam Finkelstein
 Maintainer: Noam Finkelstein <noam.finkelstein@jhu.edu>
 Imports:
     testthat,
-    restorepoint
 

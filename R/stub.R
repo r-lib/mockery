@@ -1,8 +1,6 @@
-library(restorepoint)
-
 stub = function(func, to_stub, stub) {
     func_name = deparse(substitute(func))
-    env = restorepoint::clone.environment(environment(func))
+    env = new.env(parent=environment(func))
 
     if (grepl('::', to_stub)) {
         elements = strsplit(to_stub, '::')
