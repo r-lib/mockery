@@ -6,7 +6,12 @@ stub = function(func, to_stub, stub) {
         elements = strsplit(to_stub, '::')
         to_stub = paste(elements[[1]][1], elements[[1]][2], sep='XXX')
 
-        create_new_name = create_create_new_name_function(to_stub, env)
+        stub_list = c(to_stub)
+        if ("stub_list" %in% names(attributes(get('::', env)))) {
+            stub_list = c(stub_list, attributes(get('::', env))[['stub_list']])
+        }
+
+        create_new_name = create_create_new_name_function(stub_list, env)
         assign('::', create_new_name, env)
     }
 
@@ -20,15 +25,18 @@ stub = function(func, to_stub, stub) {
     assign(func_name, func, parent.frame())
 }
 
-create_create_new_name_function = function(to_stub, env) {
+create_create_new_name_function = function(stub_list, env) {
     create_new_name = function(pkg, func) {
         pkg_name = deparse(substitute(pkg))
         func_name = deparse(substitute(func))
-        if (paste(pkg_name, func_name, sep='XXX') == to_stub) {
-            return(eval(parse(text=to_stub), env))
+        for(stub in stub_list) {
+            if (paste(pkg_name, func_name, sep='XXX') == stub) {
+                return(eval(parse(text=stub), env))
+            }
         }
         return(eval(parse(text=paste(pkg_name, func_name, sep='::'))))
     }
+    attributes(create_new_name) = list(stub_list=stub_list)
     return(create_new_name)
 }
 

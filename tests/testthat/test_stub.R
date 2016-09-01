@@ -76,3 +76,30 @@ test_that('stub and mock work together', {
     # then
     expect_equal(g(10), 100)
 })
+
+test_that('stub multiple functions', {
+    # given
+    f = function(x) x + 10
+    g = function(y) y + 20
+    h = function(z) f(z) + g(z)
+
+    # when
+    stub(h, 'f', 300)
+    stub(h, 'g', 500)
+
+    # then
+    expect_equal(h(1), 800)
+})
+
+test_that('stub multiple namespaced functions', {
+    # given
+    h = function(x) mockery::stub(x) + mockery::get_function_source(x)
+
+    # when
+    stub(h, 'mockery::stub', 300)
+    stub(h, 'mockery::get_function_source', 500)
+
+    # then
+    expect_equal(h(1), 800)
+})
+
