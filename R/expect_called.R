@@ -7,11 +7,16 @@ expect_called = function(func, to_mock, expected_call_list) {
     original_env = new.env(parent=environment(func))
 
     if (grepl('::', to_mock)) {
-        mock_func = eval(parse(text=to_mock))
+        mock_func = eval(parse(text=to_mock), original_env)
         elements = strsplit(to_mock, '::')
         to_mock = paste(elements[[1]][1], elements[[1]][2], sep='XXX')
 
-        create_new_name = create_create_new_name_function(to_mock, original_env)
+        stub_list = c(to_mock)
+        if ("stub_list" %in% names(attributes(get('::', original_env)))) {
+            stub_list = c(stub_list, attributes(get('::', original_env))[['stub_list']])
+        }
+
+        create_new_name = create_create_new_name_function(stub_list, original_env)
         assign('::', create_new_name, original_env)
     } else {
         mock_func = get(to_mock, original_env)

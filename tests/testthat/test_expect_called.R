@@ -46,3 +46,34 @@ test_that('expect called works with namespaced funtions', {
     # when
     g(1, 1)
 })
+
+test_that('expect called with multiple functions', {
+    # given
+    f = function(x) 1
+    g = function(x) 1
+    h = function(x) f(x) + g(x)
+
+    # expect
+    mockery::expect_called(h, 'f', list(1))
+    mockery::expect_called(h, 'g', list(1))
+
+    # when
+    h(1)
+})
+
+test_that('expect called with multiple namespaced functions', {
+    # given
+    f = function(x) testthat::expect_equal(x) + mockery::stub(x)
+
+    # expect
+    stub(f, 'mockery::stub', 1)
+    stub(f, 'testthat::expect_equal', 1)
+    mockery::expect_called(f, 'mockery::stub', list(1))
+    mockery::expect_called(f, 'testthat::expect_equal', list(1))
+
+    # when
+    result = f(1)
+
+    # then
+    testthat::expect_equal(2, result)
+})
