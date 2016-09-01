@@ -17,7 +17,7 @@ expect_called = function(func, to_mock, expected_call_list) {
         mock_func = get(to_mock, original_env)
     }
 
-    mock_env = restorepoint::clone.environment(environment(mock_func))
+    mock_env = new.env(parent=environment(mock_func))
 
     expect_call_equal = function(call_list) {
         if (length(names(expected_call_list)) != 0) {
