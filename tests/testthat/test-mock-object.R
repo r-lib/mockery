@@ -135,3 +135,22 @@ test_that("expect args in with_mock", {
   expect_args(m, 1, Sepal.Width ~ Sepal.Length, data = iris)
 })
 
+
+test_that("calls are counted", {
+  m <- mock()
+  expect_no_calls(m, 0)
+
+  m()
+  expect_no_calls(m, 1)
+
+  m()
+  expect_no_calls(m, 2)
+})
+
+
+test_that("appropriate message if counts are missing", {
+  m <- mock()
+  expect_failure(expect_no_calls(m, 1), "mock object has not been called 1 time")
+  expect_failure(expect_no_calls(m, 2), "mock object has not been called 2 times")
+})
+

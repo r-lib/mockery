@@ -28,7 +28,7 @@ call expression (\code{\link{expect_call}}) and/or argument values
 (\code{\link{expect_args}}) match the expected.
 }
 \details{
-With \code{expect_called} you can check how many times has the mock
+With \code{expect_no_calls} you can check how many times has the mock
 object been called.
 }
 \examples{
@@ -39,7 +39,7 @@ m <- mock()
 with_mock(summary = m, summary(iris))
 
 # it has been called once
-expect_called(m, 1)
+expect_no_calls(m, 1)
 
 # the first (and only) call's arguments matche `summary(iris)`
 expect_call(m, 1, summary(iris))
