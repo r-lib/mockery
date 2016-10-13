@@ -1,9 +1,22 @@
 Package: mockery
 Version: 0.1.0
-Title: mockery
-Description: A mocking library for R.
-Author: Noam Finkelstein
-Maintainer: Noam Finkelstein <noam.finkelstein@jhu.edu>
+Title: Mocking Library for R
+Description:
+    The main goal of this package is to simplify creation of
+    mock objects (functions) which are used with testthat's
+    with_mock. However, it can be used with any other testing
+    framework.
+Authors@R: c(person("Noam", "Finkelstein", role = c("aut", "cre"),
+                    email = "noam.finkelstein@jhu.edu"),
+             person("Lukasz", "Bartnik", rol = c("aut", "cre"),
+                    email = "l.bartnik@gmail.com"))
 Imports:
-    testthat,
-
+    testthat
+License: MIT + file LICENSE
+Collate:
+    'expect_called.R'
+    'expectations.R'
+    'function_source_utils.R'
+    'mock-object.R'
+    'stub.R'
+RoxygenNote: 5.0.1
