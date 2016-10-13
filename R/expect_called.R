@@ -1,7 +1,14 @@
-library(testthat)
-
-# Works with named or unnamed call list.
-# If unnamed, must be complete call list, if named can be partial.
+#' Add expectation to a function.
+#'
+#' Works with named or unnamed call list. If unnamed, must be
+#' a complete call list, if named can be partial.
+#'
+#' @param func description
+#' @param to_mock description
+#' @param expected_call_list description
+#'
+#' @export
+#'
 expect_called = function(func, to_mock, expected_call_list) {
     func_name = deparse(substitute(func))
     original_env = new.env(parent=environment(func))

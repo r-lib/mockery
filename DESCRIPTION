@@ -8,7 +8,7 @@ Description:
     framework.
 Authors@R: c(person("Noam", "Finkelstein", role = c("aut", "cre"),
                     email = "noam.finkelstein@jhu.edu"),
-             person("Lukasz", "Bartnik", rol = c("aut", "cre"),
+             person("Lukasz", "Bartnik", rol = c("aut"),
                     email = "l.bartnik@gmail.com"))
 Imports:
     testthat
