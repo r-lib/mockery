@@ -1,4 +1,13 @@
-stub = function(func, to_stub, stub) {
+
+#' Replace a function with its stub.
+#'
+#' @param func description
+#' @param to_stub description
+#' @param stub description
+#'
+#' @export
+#'
+`stub` <- function(func, to_stub, stub) {
     func_name = deparse(substitute(func))
     env = new.env(parent=environment(func))
 
@@ -24,6 +33,7 @@ stub = function(func, to_stub, stub) {
     environment(func) = env
     assign(func_name, func, parent.frame())
 }
+
 
 create_create_new_name_function = function(stub_list, env) {
     create_new_name = function(pkg, func) {
