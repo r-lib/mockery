@@ -118,12 +118,46 @@ test_that('stub works well with mock object', {
     expect_equal(result, 100)
 })
 
+f = function(x) x + 10
+g = function(x) f(x)
 test_that('mock object returns value', {
     mock_object = mock(1)
-    stub(g, 'f', mock) 
+    stub(g, 'f', mock_object) 
 
     expect_equal(g('anything'), 1)
-    expect_no_calls(m, 1)
-    expect_call(m, 1, g('anything'))
-    expect_args(m, 1, iris)
+    expect_no_calls(mock_object, 1)
+    expect_args(mock_object, 1, 'anything')
+})
+
+test_that('mock object multiple return values', {
+    mock_object = mock(1, "a", sqrt(3))
+    stub(g, 'f', mock_object) 
+
+    expect_equal(g('anything'), 1)
+    expect_equal(g('anything'), "a")
+    expect_equal(g('anything'), sqrt(3))
+})
+                                   
+test_that('mock object accessing values of arguments', {
+    mock_object <- mock()
+    mock_object(x = 1)
+    mock_object(y = 2)
+
+    expect_equal(length(mock_object), 2)
+    args <- mock_args(mock_object)
+
+    expect_equal(args[[1]], list(x = 1))
+    expect_equal(args[[2]], list(y = 2))
+})
+
+test_that('mock object accessing call expressions', {
+    mock_object <- mock()
+    mock_object(x = 1)
+    mock_object(y = 2)
+
+    expect_equal(length(mock_object), 2)
+    calls <- mock_calls(mock_object)
+
+    expect_equal(calls[[1]], quote(mock_object(x = 1)))
+    expect_equal(calls[[2]], quote(mock_object(y = 2)))
 })

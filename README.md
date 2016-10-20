@@ -80,57 +80,71 @@ Sometimes it's not enough just to stub out the function of interest with another
 In such cases, you can stub out the function with mockery's mock objects.
 
 ```.R
-f = function(y) y + 10
-g = function(x) f(x)
+test_that('stub works well with mock object', {
+    # given
+    f = function(x) x + 10
+    g = function(x) f(x)
 
+    mock_object = mock(100)
+    stub(g, 'f', mock_object)
+
+    # when
+    result = g(5)
+
+    # then
+    expect_equal(result, 100)
+})
+
+f = function(x) x + 10
+g = function(x) f(x)
 test_that('mock object returns value', {
     mock_object = mock(1)
-    stub(g, 'f', mock) 
+    stub(g, 'f', mock_object) 
 
     expect_equal(g('anything'), 1)
-    expect_no_calls(m, 1)
-    expect_call(m, 1, g('anything')(iris))
-    expect_args(m, 1, iris)
+    expect_no_calls(mock_object, 1)
+    expect_args(mock_object, 1, 'anything')
 })
-                                     
-# multiple return values
-m <- mock(1, "a", sqrt(3))
-with_mock(summary = m, {
-  expect_equal(summary(iris), 1)
-  expect_equal(summary(iris), "a")
-  expect_equal(summary(iris), 1.73, t
+
+test_that('mock object multiple return values', {
+    mock_object = mock(1, "a", sqrt(3))
+    stub(g, 'f', mock_object) 
+
+    expect_equal(g('anything'), 1)
+    expect_equal(g('anything'), "a")
+    expect_equal(g('anything'), sqrt(3))
 })
-                                     
-# side effects
-m <- mock(1, 2, stop("error"))
-with_mock(summary = m, {
-  expect_equal(summary(iris), 1)
-  expect_equal(summary(iris), 2)
-  expect_error(summary(iris), "error"
+                                   
+test_that('mock object accessing values of arguments', {
+    mock_object <- mock()
+    mock_object(x = 1)
+    mock_object(y = 2)
+
+    expect_equal(length(mock_object), 2)
+    args <- mock_args(mock_object)
+
+    expect_equal(args[[1]], list(x = 1))
+    expect_equal(args[[2]], list(y = 2))
 })
-                                     
-# accessing call expressions
-m <- mock()
-m(x = 1)
-m(y = 2)
-expect_equal(length(m), 2)
-calls <- mock_calls(m)
-expect_equal(calls[[1]], quote(m(x = 
-expect_equal(calls[[2]], quote(m(y = 
-                                     
-# accessing values of arguments
-m <- mock()
-m(x = 1)
-m(y = 2)
-expect_equal(length(m), 2)
-args <- mock_args(m)
-expect_equal(args[[1]], list(x = 1))
-expect_equal(args[[2]], list(y = 2))
+
+test_that('mock object accessing call expressions', {
+    mock_object <- mock()
+    mock_object(x = 1)
+    mock_object(y = 2)
+
+    expect_equal(length(mock_object), 2)
+    calls <- mock_calls(mock_object)
+
+    expect_equal(calls[[1]], quote(mock_object(x = 1)))
+    expect_equal(calls[[2]], quote(mock_object(y = 2)))
+})
 ```
 
 #### Verifying function calls
 
-Mockery's `expect_called` function works like one of `testthat`'s expecations, and allows you to verify that the function was called correctly.
+Sometimes you may want to make a assertions about function calls while still allowing the function to execute. In such cases, the mock objects above will not work.
+
+Mockery's `expect_called` function works a little like one of `testthat`'s expecations, and allows you to verify that the function was called correctly. The difference is the this expectation has to be set _before_ the mock is called.
 
 Note that unless the function was stubbed out as above, the function will still execute as before. If the function was stubbed out, the stub will behave correctly.  If the function is stubbed _after_ the expectation is set, the expectation will get overwritten.
 
