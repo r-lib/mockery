@@ -103,3 +103,27 @@ test_that('stub multiple namespaced functions', {
     expect_equal(h(1), 800)
 })
 
+test_that('stub works well with mock object', {
+    # given
+    f = function(x) x + 10
+    g = function(x) f(x)
+
+    mock_object = mock(100)
+    stub(g, 'f', mock_object)
+
+    # when
+    result = g(5)
+
+    # then
+    expect_equal(result, 100)
+})
+
+test_that('mock object returns value', {
+    mock_object = mock(1)
+    stub(g, 'f', mock) 
+
+    expect_equal(g('anything'), 1)
+    expect_no_calls(m, 1)
+    expect_call(m, 1, g('anything'))
+    expect_args(m, 1, iris)
+})

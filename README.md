@@ -73,6 +73,61 @@ test_that('stubs function from namespace', {
 })
 ```
 
+#### Using mock objects
+
+Sometimes it's not enough just to stub out the function of interest with another function. You may want to be able to make assertions about how the stubbed-out function was treated - how many times it was called, with which arguments, etc.
+
+In such cases, you can stub out the function with mockery's mock objects.
+
+```.R
+f = function(y) y + 10
+g = function(x) f(x)
+
+test_that('mock object returns value', {
+    mock_object = mock(1)
+    stub(g, 'f', mock) 
+
+    expect_equal(g('anything'), 1)
+    expect_no_calls(m, 1)
+    expect_call(m, 1, g('anything')(iris))
+    expect_args(m, 1, iris)
+})
+                                     
+# multiple return values
+m <- mock(1, "a", sqrt(3))
+with_mock(summary = m, {
+  expect_equal(summary(iris), 1)
+  expect_equal(summary(iris), "a")
+  expect_equal(summary(iris), 1.73, t
+})
+                                     
+# side effects
+m <- mock(1, 2, stop("error"))
+with_mock(summary = m, {
+  expect_equal(summary(iris), 1)
+  expect_equal(summary(iris), 2)
+  expect_error(summary(iris), "error"
+})
+                                     
+# accessing call expressions
+m <- mock()
+m(x = 1)
+m(y = 2)
+expect_equal(length(m), 2)
+calls <- mock_calls(m)
+expect_equal(calls[[1]], quote(m(x = 
+expect_equal(calls[[2]], quote(m(y = 
+                                     
+# accessing values of arguments
+m <- mock()
+m(x = 1)
+m(y = 2)
+expect_equal(length(m), 2)
+args <- mock_args(m)
+expect_equal(args[[1]], list(x = 1))
+expect_equal(args[[2]], list(y = 2))
+```
+
 #### Verifying function calls
 
 Mockery's `expect_called` function works like one of `testthat`'s expecations, and allows you to verify that the function was called correctly.
