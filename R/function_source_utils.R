@@ -1,5 +1,13 @@
+
+#' Returns the pure R source code for a function.
+#'
+#' @param func function for which to retreive the source code.
+#'
+#' @export
+#'
+#' @importFrom R.utils captureOutput
 get_function_source = function(func) {
-    output = capture.output(print(func))
+    output = captureOutput(print(func))
 
     # drops environment and namespace information
     output = Filter(function(x) !startsWith(trimws(x), '<'), output)

@@ -6,7 +6,7 @@
 #' @param func description
 #' @param to_mock description
 #' @param expected_call_list description
-#'
+#' @importFrom utils tail
 #' @export
 #'
 expect_called = function(func, to_mock, expected_call_list) {
