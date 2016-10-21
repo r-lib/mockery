@@ -11,13 +11,12 @@ Authors@R: c(person("Noam", "Finkelstein", role = c("aut", "cre"),
              person("Lukasz", "Bartnik", rol = c("aut"),
                     email = "l.bartnik@gmail.com"))
 Imports:
-    testthat,
-    R.utils
+    testthat
 License: MIT + file LICENSE
 Collate:
-    'expect_called.R'
-    'expectations.R'
-    'function_source_utils.R'
-    'mock-object.R'
-    'stub.R'
+    expect_called.R
+    expectations.R
+    function_source_utils.R
+    mock-object.R
+    stub.R
 RoxygenNote: 5.0.1
