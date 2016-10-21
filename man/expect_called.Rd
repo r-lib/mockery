@@ -7,11 +7,17 @@
 expect_called(func, to_mock, expected_call_list)
 }
 \arguments{
-\item{func}{description}
+\item{func}{The function you plan to call, and within which you want
+to verify a call to another function.}
 
-\item{to_mock}{description}
+\item{to_mock}{A string that is the name of the function you want to
+verify a call to.}
 
-\item{expected_call_list}{description}
+\item{expected_call_list}{This is the list of parameters you expect
+to be present in the function call. It can be a list with or
+without names. If it is a list with names, it can be a partial
+list, i.e. it doesn't need to include all the parameters. Only
+the included parameters will be checked.}
 }
 \description{
 Works with named or unnamed call list. If unnamed, must be

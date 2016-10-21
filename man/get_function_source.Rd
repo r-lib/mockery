@@ -2,14 +2,17 @@
 % Please edit documentation in R/function_source_utils.R
 \name{get_function_source}
 \alias{get_function_source}
-\title{Returns the pure R source code for a function.}
+\title{Returns the pure R source code for a given function.}
 \usage{
 get_function_source(func)
 }
 \arguments{
 \item{func}{function for which to retreive the source code.}
 }
+\value{
+\code{func}'s source code as a single \code{character} value.
+}
 \description{
-Returns the pure R source code for a function.
+Returns the pure R source code for a given function.
 }
 

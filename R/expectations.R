@@ -83,7 +83,9 @@ expect_args <- function (mock_object, n, ...)
   expect_equal(
     mock_args(mock_object)[[n]],
     expected_args,
-    info = "expected argument list does not mach actual one."
+    info  = "expected argument list does not mach actual one.",
+    label = paste0("arguments to call #", n),
+    expected.label = 'expected arguments'
   )
 
   invisible(TRUE)
