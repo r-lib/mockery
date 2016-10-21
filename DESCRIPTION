@@ -11,7 +11,8 @@ Authors@R: c(person("Noam", "Finkelstein", role = c("aut", "cre"),
              person("Lukasz", "Bartnik", rol = c("aut"),
                     email = "l.bartnik@gmail.com"))
 Imports:
-    testthat
+    testthat,
+    utils
 License: MIT + file LICENSE
 Collate:
     expect_called.R
