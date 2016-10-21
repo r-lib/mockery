@@ -1,2 +1,6 @@
+# RStudio & vim
 *.swp
 .Rproj.user
+
+# R
+.Rhistory
