@@ -220,7 +220,7 @@ Here is what happens if the value turns out to be different.
 expect_args(m, 1, iris[-1, ])
 ```
 ```
-## Error: mock_object$args[[n]] not equal to `expected_args`.
+## Error: arguments to call #1 not equal to expected arguments.
 ## Component 1: Attributes: < Component "row.names": Numeric: lengths (150, 149) differ >
 ## Component 1: Component 1: Numeric: lengths (150, 149) differ
 ## Component 1: Component 2: Numeric: lengths (150, 149) differ
@@ -250,7 +250,7 @@ Omitting the name results in an error.
 expect_args(m, 1, iris)
 ```
 ```
-## Error: mock_object$args[[n]] not equal to `expected_args`.
+## Error: arguments to call #1 not equal to expected arguments.
 ## names for target but not for current
 ## expected argument list does not mach actual one.
 ```
