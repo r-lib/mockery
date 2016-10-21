@@ -1,0 +1,260 @@
+---
+title: 'Mocks: how-to'
+author: "Lukasz A. Bartnik"
+date: "October 20, 2016"
+output: html_document
+---
+
+```{r echo=FALSE, results='hide'}
+library(mockery)
+
+library(knitr)
+opts_chunk$set(results = 'hold')
+```
+
+
+Mock object, which is a part of the `mockery` package, started as an
+extension to [testthat](github.com/hadley/testthat)'s `with_mock()`
+facility. Its main purpose was to simplify the replacement (mocking)
+of a given function by means of `with_mock` and the later
+verification of actual calls invoked on the replacing function.
+
+The `mockery` package which provides its own stubbing facility, the
+`stub()` function. Here, however, we will look only at how `mock()`
+can be used together with `with_mock()`.
+
+
+## Mocks
+
+### Creating a `mock` function
+
+Mocking is a well-known technique when it comes to unit-testing and in
+most languages there is some notion of a mock object. In R, however, the
+natural equivalent of a mock object is a mock _function_ - and this is
+exactly what a call to `mock()` will produce.
+
+```{r create_mock}
+m <- mock()
+```
+
+
+### Return values
+
+Let's look at arguments accepted by the `mock()` _factory_ function. The
+main is a list of values which will be returned upon subsequent calls to
+`m`.
+
+```{r return_values}
+m <- mock(1, 2, 3)
+m()
+m()
+m()
+```
+
+`mock()` can take also an expression which will be evaluated upon a call.
+
+```{r return_expression}
+x <- 1
+y <- 2
+m <- mock(x + y)
+m()
+```
+
+
+### Cycling through return values
+
+By default, if the total number of calls exceeds the number of defined
+return values, the _mock_ function will throw an exception. However, one
+can also choose to cycle through the list of retun values by setting the
+`cycle` argument of `mock()` to `TRUE`.
+
+```{r cycle_no, eval=FALSE}
+m <- mock(1, 2)
+m()
+m()
+m()
+```
+```
+## [1] 1
+## [1] 2
+## Error: too many calls to mock object and cycle set to FALSE
+```
+
+```{r cycle_true}
+m <- mock(1, 2, cycle = TRUE)
+m()
+m()
+m()
+m()
+```
+
+
+If a return value is defined by an expression, this expression will be
+evaluated each time a cycle reaches its position.
+
+```{r cycle_expression}
+x <- 1
+y <- 2
+m <- mock(1, x + y, cycle = TRUE)
+
+m()
+m()
+```
+```{r cycle_expression_2nd}
+y <- 10
+m()
+m()
+```
+
+
+### Evaluating expression in an environment of choice
+
+Finally, one can specify the environment where the return expression is
+evaluated.
+
+```{r return_expression_env}
+x <- 1
+y <- 2
+e <- new.env()
+m <- mock(x + y, envir = e, cycle = TRUE)
+
+m()
+```
+```{r return_expression_env_2nd}
+e$x <- 10
+m()
+```
+
+
+## Integration with `with_mock()`
+
+### Simple integration
+
+Using mock functions with `testthat`'s `with_mock()` is pretty
+straightforward.
+
+```{r with_mock, message=FALSE}
+library(testthat)
+
+m <- mock(1)
+f <- function (x) summary(x)
+with_mock(f = m, {
+  expect_equal(f(iris), 1)
+})
+```
+
+
+### Verifying the number of calls
+
+The `mockery` package comes with a few additional expectations which
+might turn out to be a very useful extension to `testthat`'s API. One
+can for example verify the number and signature of calls invoked on a
+mock function, as well as the values of arguments passed in those calls.
+
+First, let's make sure the mocked function is called exactly as many
+times as we expect. This can be done with `expect_no_calls()`.
+
+```{r expect_no_calls}
+m <- mock(1, 2)
+
+m()
+expect_no_calls(m, 1)
+
+m()
+expect_no_calls(m, 2)
+```
+
+And here is what happens when we get the number of calls wrong.
+
+```{r expect_no_calls_error, eval=FALSE}
+expect_no_calls(m, 1)
+expect_no_calls(m, 3)
+```
+```
+## Error: mock object has not been called 1 time.
+## Error: mock object has not been called 3 times.
+```
+
+### Verify the call signature
+
+Another new expectation is `expect_call()` which compares the signature
+of the actual call as invoked on the mock function with the expected one.
+It takes as arguments: the mock function, the call number, expected call.
+
+```{r expect_call}
+m <- mock(1)
+with_mock(summary = m, {
+  summary(iris)
+})
+
+expect_call(m, 1, summary(iris))
+```
+
+And here is what happens if the call doesn't match.
+
+```{r call_doesnt_match, eval=FALSE}
+expect_call(m, 1, summary(x))
+```
+```
+## Error: expected call summary(x) does not mach actual call summary(iris).
+```
+
+### Verify values of argument
+
+Finally, one can verify whether the actual values of arguments passed
+to the mock function match the expectation. Following the previous
+example of `summary(iris)` we can make sure that the `object` parameter
+passed to `m()` was actually the `iris` dataset.
+
+```{r expect_args}
+expect_args(m, 1, iris)
+```
+
+Here is what happens if the value turns out to be different.
+
+```{r expect_args_different, eval=FALSE}
+expect_args(m, 1, iris[-1, ])
+```
+```
+## Error: mock_object$args[[n]] not equal to `expected_args`.
+## Component 1: Attributes: < Component "row.names": Numeric: lengths (150, 149) differ >
+## Component 1: Component 1: Numeric: lengths (150, 149) differ
+## Component 1: Component 2: Numeric: lengths (150, 149) differ
+## Component 1: Component 3: Numeric: lengths (150, 149) differ
+## Component 1: Component 4: Numeric: lengths (150, 149) differ
+## Component 1: Component 5: Lengths: 150, 149
+## Component 1: Component 5: Lengths (150, 149) differ (string compare on first 149)
+## Component 1: Component 5: 2 string mismatches
+## expected argument list does not mach actual one.
+```
+
+If the call has been made with an explicit argument name the same has
+to appear in `expect_args()`.
+
+```{r expect_args_named}
+m <- mock(1)
+with_mock(summary = m, {
+  summary(object = iris)
+})
+
+expect_args(m, 1, object = iris)
+```
+
+Omitting the name results in an error.
+
+```{r expect_args_unnamed, eval=FALSE}
+expect_args(m, 1, iris)
+```
+```
+## Error: mock_object$args[[n]] not equal to `expected_args`.
+## names for target but not for current
+## expected argument list does not mach actual one.
+```
+
+
+## Further reading
+
+More information can be found in examples presented in manual pages
+for `?mock` and `?expect_call`. Extensive information about testing
+in R can be found in the documentation for the
+[testthat](github.com/hadley/testthat) package.
