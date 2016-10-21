@@ -2,18 +2,38 @@
 % Please edit documentation in R/stub.R
 \name{stub}
 \alias{stub}
-\title{Replace a function with its stub.}
+\title{Replace a function with a stub.}
 \usage{
 stub(func, to_stub, stub)
 }
 \arguments{
-\item{func}{description}
+\item{func}{The function to be called that will in turn call \code{to_stub}}
 
-\item{to_stub}{description}
+\item{to_stub}{The name of the function you want to stub out.}
 
-\item{stub}{description}
+\item{stub}{Replacement function or a return value.}
 }
 \description{
-Replace a function with its stub.
+The result of calling \code{stub} is that, when \code{func}
+is invoked and when it internally makes a call to \code{to_stub},
+\code{stub} is going to be called instead.
+}
+\details{
+This is much more limited in scope in comparison to
+\code{\link[testthat]{with_mock}} which effectively replaces
+\code{to_stub} everywhere. In other words, when using \code{with_mock}
+and regardless of the number of intermediate calls, \code{stub} is
+always called instead of \code{to_stub}. However, using this API,
+the replacement takes place only for a single function \code{func}
+and only for calls originating from that function.
+
+\code{remote_stub} reverses the effect of \code{stub}.
+}
+\examples{
+\dontrun{
+stub(read.csv, 'read.table', function(...) TRUE)
+read.csv('data.csv')
+}
+
 }
 
