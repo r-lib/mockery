@@ -35,6 +35,17 @@ test_that('stubs function with function', {
     expect_equal(g(10), 510)
 })
 
+test_that("stubs function by symbolic name", {
+  # before stubbing
+  expect_equal(g(20), 30)
+
+  # when
+  stub(g, f, 100)
+
+  # then
+  expect_equal(g(20), 110)
+})
+
 test_that('stubs function from namespace', {
     # given
     f = function() mockery::get_function_source(function(x) x)

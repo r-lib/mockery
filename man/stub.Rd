@@ -4,35 +4,40 @@
 \alias{stub}
 \title{Replace a function with a stub.}
 \usage{
-stub(func, to_stub, stub)
+stub(where, what, how)
 }
 \arguments{
-\item{func}{The function to be called that will in turn call \code{to_stub}}
+\item{where}{The function to be called that will in turn call
+\code{what}.}
 
-\item{to_stub}{The name of the function you want to stub out.}
+\item{what}{The name of the function you want to stub out,
+\code{character} or \code{symbol}.}
 
-\item{stub}{Replacement function or a return value.}
+\item{how}{Replacement function (also a \code{\link{mock}} function)
+or a return value for which a function will be created
+automatically.}
 }
 \description{
-The result of calling \code{stub} is that, when \code{func}
-is invoked and when it internally makes a call to \code{to_stub},
-\code{stub} is going to be called instead.
+The result of calling \code{stub} is that, when \code{where}
+is invoked and when it internally makes a call to \code{what},
+\code{how} is going to be called instead.
 }
 \details{
 This is much more limited in scope in comparison to
 \code{\link[testthat]{with_mock}} which effectively replaces
-\code{to_stub} everywhere. In other words, when using \code{with_mock}
-and regardless of the number of intermediate calls, \code{stub} is
-always called instead of \code{to_stub}. However, using this API,
-the replacement takes place only for a single function \code{func}
-and only for calls originating from that function.
-
-\code{remote_stub} reverses the effect of \code{stub}.
+\code{what} everywhere. In other words, when using \code{with_mock}
+and regardless of the number of intermediate calls, \code{how} is
+always called instead of \code{what}. However, using this API,
+the replacement takes place only for a single function \code{where}
+and only for calls originating in that function.
 }
 \examples{
 \dontrun{
 stub(read.csv, 'read.table', function(...) TRUE)
 read.csv('data.csv')
+
+# which is equivalent to
+stub(read.csv, read.table, TRUE)
 }
 
 }
