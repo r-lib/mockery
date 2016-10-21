@@ -1,8 +1,12 @@
 ---
-title: 'Mocks: how-to'
+title: 'Mocks: Integrating with `testthat`'
 author: "Lukasz A. Bartnik"
-date: "October 20, 2016"
-output: html_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Non-standard evaluation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r echo=FALSE, results='hide'}
