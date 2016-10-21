@@ -5,6 +5,7 @@
 #' @return \code{func}'s source code as a single \code{character} value.
 #'
 #' @export
+#' @importFrom utils capture.output
 #'
 get_function_source <- function(func)
 {
