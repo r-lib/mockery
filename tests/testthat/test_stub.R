@@ -35,6 +35,7 @@ test_that('stubs function with function', {
     expect_equal(g(10), 510)
 })
 
+
 test_that('stubs function from namespace', {
     # given
     f = function() mockery::get_function_source(function(x) x)
