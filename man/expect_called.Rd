@@ -23,4 +23,16 @@ the included parameters will be checked.}
 Works with named or unnamed call list. If unnamed, must be
 a complete call list, if named can be partial.
 }
+\examples{
+# given                                                                     
+g <- function(y, z, x) y + z + x + 10                                        
+f <- function(x) g(y=1, z=2, x=(x + 1))                                      
+
+# expect                                                                    
+expect_called(f, 'g', list(y=1, x=6))                              
+
+# when                                                                      
+f(5)   
+
+}
 

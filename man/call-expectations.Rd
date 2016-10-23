@@ -41,7 +41,7 @@ with_mock(summary = m, summary(iris))
 # it has been called once
 expect_no_calls(m, 1)
 
-# the first (and only) call's arguments matche `summary(iris)`
+# the first (and only) call's arguments matches summary(iris)
 expect_call(m, 1, summary(iris))
 
 # expect argument value
