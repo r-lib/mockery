@@ -21,10 +21,10 @@ NULL
 # \code{remote_stub} reverses the effect of \code{stub}.
 
 
-#' @param where The function to be called that will in turn call
+#' @param where Function to be called that will in turn call
 #'        \code{what}.
-#' @param what The name of the function you want to stub out,
-#'        \code{character} or \code{symbol}.
+#' @param what Name of the function you want to stub out (a
+#'        \code{character} string).
 #' @param how Replacement function (also a \code{\link{mock}} function)
 #'        or a return value for which a function will be created
 #'        automatically.
@@ -33,13 +33,12 @@ NULL
 #' @rdname stub
 #' 
 #' @examples
-#' \dontrun{
-#' stub(read.csv, 'read.table', function(...) TRUE)
-#' read.csv('data.csv')
+#' f <- function() TRUE
+#' g <- function() f()
+#' stub(g, 'f', FALSE)
 #' 
-#' # which is equivalent to
-#' stub(read.csv, read.table, TRUE)
-#' }
+#' # now g() returns FALSE because f() has been stubbed out
+#' g()
 #' 
 `stub` <- function (where, what, how)
 {
@@ -47,24 +46,17 @@ NULL
     where_name <- deparse(substitute(where))
     stopifnot(is.function(where))
   
-    # `what` can be either a symbol or a character value
-    what_name  <- substitute(what)
-    if (is.symbol(what_name) || identical(what_name, `::`)) {
-      what_name <- deparse(what_name)
-    }
-    else {
-      stopifnot(is.character(what), length(what) == 1)
-      what_name <- what
-    }
+    # `what` needs to be a character value
+    stopifnot(is.character(what), length(what) == 1)
 
     # this is where a stub is going to be assigned in
     env <- new.env(parent = environment(where))
 
-    if (grepl('::', what_name)) {
-        elements  <- strsplit(what_name, '::')
-        what_name <- paste(elements[[1]][1], elements[[1]][2], sep='XXX')
+    if (grepl('::', what)) {
+        elements  <- strsplit(what, '::')
+        what <- paste(elements[[1]][1], elements[[1]][2], sep='XXX')
 
-        stub_list <- c(what_name)
+        stub_list <- c(what)
         if ("stub_list" %in% names(attributes(get('::', env)))) {
             stub_list <- c(stub_list, attributes(get('::', env))[['stub_list']])
         }
@@ -74,29 +66,14 @@ NULL
     }
 
     if (!is.function(how)) {
-        assign(what_name, function(...) how, env)
+        assign(what, function(...) how, env)
     } else {
-        assign(what_name, how, env)
+        assign(what, how, env)
     }
 
     environment(where) <- env
     assign(where_name, where, parent.frame())
 }
-
-
-# @param where Reverse changes made for that function.
-# @param what Remove this stub.
-# 
-# @rdname stub
-# @export
-`remove_stub` <- function (where, what)
-{
-  stop('not implemented yet', call. = FALSE)
-  
-  # 1. remove if exists, abort if it doesn't exist
-  # 2. if the intermediate environment is empty, remove it
-}
-
 
 
 create_create_new_name_function <- function(stub_list, env)

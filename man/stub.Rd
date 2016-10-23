@@ -7,11 +7,11 @@
 stub(where, what, how)
 }
 \arguments{
-\item{where}{The function to be called that will in turn call
+\item{where}{Function to be called that will in turn call
 \code{what}.}
 
-\item{what}{The name of the function you want to stub out,
-\code{character} or \code{symbol}.}
+\item{what}{Name of the function you want to stub out (a
+\code{character} string).}
 
 \item{how}{Replacement function (also a \code{\link{mock}} function)
 or a return value for which a function will be created
@@ -32,13 +32,12 @@ the replacement takes place only for a single function \code{where}
 and only for calls originating in that function.
 }
 \examples{
-\dontrun{
-stub(read.csv, 'read.table', function(...) TRUE)
-read.csv('data.csv')
+f <- function() TRUE
+g <- function() f()
+stub(g, 'f', FALSE)
 
-# which is equivalent to
-stub(read.csv, read.table, TRUE)
-}
+# now g() returns FALSE because f() has been stubbed out
+g()
 
 }
 
