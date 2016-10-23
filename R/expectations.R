@@ -23,7 +23,7 @@
 #' # it has been called once
 #' expect_no_calls(m, 1)
 #'
-#' # the first (and only) call's arguments matche `summary(iris)`
+#' # the first (and only) call's arguments matches summary(iris)
 #' expect_call(m, 1, summary(iris))
 #'
 #' # expect argument value
@@ -55,10 +55,12 @@ expect_call <- function (mock_object, n, expected_call) {
   expected_call <- substitute(expected_call)
   mocked_call <- mock_calls(mock_object)[[n]]
 
+  format_call <- function (x) paste(trimws(deparse(x)), collapse = ' ')
+  
   expect(
     identical(mocked_call, expected_call),
     sprintf("expected call %s does not mach actual call %s.",
-            format(expected_call), format(mocked_call))
+            format_call(expected_call), format_call(mocked_call))
   )
 
   invisible(TRUE)
@@ -79,16 +81,33 @@ expect_args <- function (mock_object, n, ...)
   )
 
   expected_args <- list(...)
-
-  expect_equal(
-    mock_args(mock_object)[[n]],
-    expected_args,
-    info  = "expected argument list does not mach actual one.",
-    label = paste0("arguments to call #", n),
-    expected.label = 'expected arguments'
-  )
+  actual_args   <- mock_args(mock_object)[[n]]
+  
+  expect_equal(length(actual_args), length(expected_args),
+               info = 'number of expected args does not match the actual')
+  
+  for (i in seq_along(actual_args)) {
+    expect_equal(
+      actual_args[[i]],
+      expected_args[[i]],
+      label = paste(ordinal(i), 'actual argument'),
+      expected.label = paste(ordinal(i), 'expected argument')
+    ) 
+  }
 
   invisible(TRUE)
+}
+
+
+# from CRAN package scales
+#' @importFrom utils stack
+ordinal <- function (x) 
+{
+  stopifnot(all(x > 0))
+  suffixes <- list(st = "(?<!1)1$", nd = "(?<!1)2$", rd = "(?<!1)3$", 
+                   th = "(?<=1)[123]$", th = "[0456789]$")
+  out <- utils::stack(lapply(suffixes, grep, x = x, perl = TRUE))
+  paste0(x, out$ind[order(out$values)])
 }
 
 

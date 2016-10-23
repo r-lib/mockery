@@ -1,11 +1,13 @@
 Package: mockery
-Version: 0.1.0
+Version: 0.2.0
 Title: Mocking Library for R
 Description:
-    The main goal of this package is to simplify creation of
-    mock objects (functions) which are used with testthat's
-    with_mock. However, it can be used with any other testing
-    framework.
+    The two main functionalities of this package are creating mock
+    objects (functions) and selectively intercepting calls to a given
+    function that originate in some other function. It can be used
+    with any testing framework available for R. Mock objects can
+    be injected with either this package's own stub() function or a
+    similar with_mock() facility present in the testthat package. 
 Authors@R: c(person("Noam", "Finkelstein", role = c("aut", "cre"),
                     email = "noam.finkelstein@jhu.edu"),
              person("Lukasz", "Bartnik", rol = c("aut"),
@@ -18,6 +20,7 @@ Collate:
     expect_called.R
     expectations.R
     function_source_utils.R
+    mockery.R
     mock-object.R
     stub.R
 RoxygenNote: 5.0.1

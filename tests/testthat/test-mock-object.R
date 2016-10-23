@@ -57,6 +57,30 @@ test_that("expect calls", {
 })
 
 
+test_that("error for long call is formatted well", {
+  m <- mock()
+  with_mock(`utils::read.table` = m, {
+    read.csv('file.csv')
+  })
+
+  # test mock with mock, how crazy is that!
+  # we cannot call expect_failure because it messes up calls to expect()
+  # thus we intercept calls to expect() and later compare arguments
+  test_mock <- mock(TRUE, TRUE)
+  with_mock(expect = test_mock, {
+    expect_call(m, 1, x)
+  })
+
+  expect_no_calls(test_mock, 2)
+  
+  err <- paste0(
+    'expected call x does not mach actual call ',
+    'read.table(file = file, header = header, sep = sep, quote = quote, ',
+    'dec = dec, fill = fill, comment.char = comment.char).'
+  )
+  expect_args(test_mock, 2, FALSE, err)
+})
+
 test_that("empty return list", {
   m <- mock()
   expect_null(m())

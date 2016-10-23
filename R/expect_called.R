@@ -16,6 +16,17 @@
 #' @importFrom utils tail
 #' @export
 #'
+#' @examples
+#' # given                                                                     
+#' g <- function(y, z, x) y + z + x + 10                                        
+#' f <- function(x) g(y=1, z=2, x=(x + 1))                                      
+#'
+#' # expect                                                                    
+#' expect_called(f, 'g', list(y=1, x=6))                              
+#'
+#' # when                                                                      
+#' f(5)   
+#'
 expect_called <- function(func, to_mock, expected_call_list)
 {
     func_name <- deparse(substitute(func))
