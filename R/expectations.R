@@ -99,15 +99,20 @@ expect_args <- function (mock_object, n, ...)
 }
 
 
-# from CRAN package scales
-#' @importFrom utils stack
 ordinal <- function (x) 
 {
-  stopifnot(all(x > 0))
-  suffixes <- list(st = "(?<!1)1$", nd = "(?<!1)2$", rd = "(?<!1)3$", 
-                   th = "(?<=1)[123]$", th = "[0456789]$")
-  out <- utils::stack(lapply(suffixes, grep, x = x, perl = TRUE))
-  paste0(x, out$ind[order(out$values)])
+  stopifnot(is.integer(x), x > 0, length(x) == 1)
+  if (x %in% 11:13)
+    return(paste0(x, 'th'))
+
+  as_string  <- as.character(x)
+  last_digit <- substring(as_string, nchar(as_string))
+  suffix <- switch(last_digit,
+         `1` = 'st',
+         `2` = 'nd',
+         `3` = 'rd',
+               'th')
+  paste0(as_string, suffix)
 }
 
 
