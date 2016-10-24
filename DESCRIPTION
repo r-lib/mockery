@@ -19,6 +19,9 @@ BugReports: https://github.com/n-s-f/mockery/issues
 Imports:
     testthat,
     utils
+Suggests:
+    knitr,
+    rmarkdown (>= 1.0)
 License: MIT + file LICENSE
 Collate:
     'expect_called.R'
