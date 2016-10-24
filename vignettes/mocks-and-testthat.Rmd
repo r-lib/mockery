@@ -9,11 +9,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r echo=FALSE, results='hide'}
+```{r include=FALSE}
 library(mockery)
 
 library(knitr)
-opts_chunk$set(results = 'hold')
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 
@@ -75,13 +75,11 @@ can also choose to cycle through the list of retun values by setting the
 ```{r cycle_no, eval=FALSE}
 m <- mock(1, 2)
 m()
+#> [1] 1
 m()
+#> [1] 2
 m()
-```
-```
-## [1] 1
-## [1] 2
-## Error: too many calls to mock object and cycle set to FALSE
+#> Error: too many calls to mock object and cycle set to FALSE
 ```
 
 ```{r cycle_true}
@@ -123,8 +121,6 @@ e <- new.env()
 m <- mock(x + y, envir = e, cycle = TRUE)
 
 m()
-```
-```{r return_expression_env_2nd}
 e$x <- 10
 m()
 ```
@@ -172,11 +168,9 @@ And here is what happens when we get the number of calls wrong.
 
 ```{r expect_no_calls_error, eval=FALSE}
 expect_no_calls(m, 1)
+#> Error: mock object has not been called 1 time.
 expect_no_calls(m, 3)
-```
-```
-## Error: mock object has not been called 1 time.
-## Error: mock object has not been called 3 times.
+#> Error: mock object has not been called 3 times.
 ```
 
 ### Verify the call signature
@@ -198,9 +192,7 @@ And here is what happens if the call doesn't match.
 
 ```{r call_doesnt_match, eval=FALSE}
 expect_call(m, 1, summary(x))
-```
-```
-## Error: expected call summary(x) does not mach actual call summary(iris).
+#> Error: expected call summary(x) does not mach actual call summary(iris).
 ```
 
 ### Verify values of argument
@@ -218,18 +210,16 @@ Here is what happens if the value turns out to be different.
 
 ```{r expect_args_different, eval=FALSE}
 expect_args(m, 1, iris[-1, ])
-```
-```
-## Error: arguments to call #1 not equal to expected arguments.
-## Component 1: Attributes: < Component "row.names": Numeric: lengths (150, 149) differ >
-## Component 1: Component 1: Numeric: lengths (150, 149) differ
-## Component 1: Component 2: Numeric: lengths (150, 149) differ
-## Component 1: Component 3: Numeric: lengths (150, 149) differ
-## Component 1: Component 4: Numeric: lengths (150, 149) differ
-## Component 1: Component 5: Lengths: 150, 149
-## Component 1: Component 5: Lengths (150, 149) differ (string compare on first 149)
-## Component 1: Component 5: 2 string mismatches
-## expected argument list does not mach actual one.
+#> Error: arguments to call #1 not equal to expected arguments.
+#> Component 1: Attributes: < Component "row.names": Numeric: lengths (150, 149) differ >
+#> Component 1: Component 1: Numeric: lengths (150, 149) differ
+#> Component 1: Component 2: Numeric: lengths (150, 149) differ
+#> Component 1: Component 3: Numeric: lengths (150, 149) differ
+#> Component 1: Component 4: Numeric: lengths (150, 149) differ
+#> Component 1: Component 5: Lengths: 150, 149
+#> Component 1: Component 5: Lengths (150, 149) differ (string compare on first 149)
+#> Component 1: Component 5: 2 string mismatches
+#> expected argument list does not mach actual one.
 ```
 
 If the call has been made with an explicit argument name the same has
@@ -248,11 +238,9 @@ Omitting the name results in an error.
 
 ```{r expect_args_unnamed, eval=FALSE}
 expect_args(m, 1, iris)
-```
-```
-## Error: arguments to call #1 not equal to expected arguments.
-## names for target but not for current
-## expected argument list does not mach actual one.
+#> Error: arguments to call #1 not equal to expected arguments.
+#> names for target but not for current
+#> expected argument list does not mach actual one.
 ```
 
 
