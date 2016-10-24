@@ -27,4 +27,5 @@ Collate:
     'mockery.R'
     'mock-object.R'
     'stub.R'
+VignetteBuilder: knitr
 RoxygenNote: 5.0.1
