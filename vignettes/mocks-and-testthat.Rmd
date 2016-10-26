@@ -4,7 +4,7 @@ author: "Lukasz A. Bartnik"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Non-standard evaluation}
+  %\VignetteIndexEntry{Mocks: Integrating with testthat}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
