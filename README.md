@@ -3,7 +3,13 @@ A mocking library for R.
 
 ### Installation
 
-From the R shell:
+To install the latest CRAN release:
+
+```.R
+> install.packages('mockery')
+```
+
+To install directly from the source code in this github repository:
 
 ```.R
 > # If you don't have devtools installed yet:
