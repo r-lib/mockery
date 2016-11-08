@@ -104,6 +104,37 @@ test_that('stub multiple namespaced functions', {
     expect_equal(h(1), 800)
 })
 
+test_that('stub works with do.call', {
+    # given
+    f = function(x) x + 10
+    g = function(x) do.call('f', list(x))
+
+    # before stub
+    expect_equal(g(10), 20)
+
+    # stub
+    stub(g, 'f', 100)
+
+    # then
+    expect_equal(g(10), 100)
+})
+
+test_that('stub works with lapply', {
+    # given
+    f = function(x) x + 10
+    g = function(x) lapply(x, 'f')
+    l = list(1, 2, 3)
+
+    # before stub
+    expect_equal(g(l), list(11, 12, 13))
+
+    # stub
+    stub(g, 'f', 100)
+
+    # then
+    expect_equal(g(l), list(100, 100, 100))
+})
+
 test_that('stub works well with mock object', {
     # given
     f = function(x) x + 10
