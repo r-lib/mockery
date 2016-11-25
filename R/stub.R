@@ -44,7 +44,6 @@ NULL
 {
     # `where` needs to be a function
     where_name <- deparse(substitute(where))
-    stopifnot(is.function(where))
   
     # `what` needs to be a character value
     stopifnot(is.character(what), length(what) == 1)
@@ -52,17 +51,22 @@ NULL
     # this is where a stub is going to be assigned in
     env <- new.env(parent = environment(where))
 
-    if (grepl('::', what)) {
-        elements  <- strsplit(what, '::')
-        what <- paste(elements[[1]][1], elements[[1]][2], sep='XXX')
+    for (sep in c('::', "\\$")) {
+        if (grepl(sep, what)) {
+            elements <- strsplit(what, sep)
+            what <- paste(elements[[1]][1], elements[[1]][2], sep='XXX')
 
-        stub_list <- c(what)
-        if ("stub_list" %in% names(attributes(get('::', env)))) {
-            stub_list <- c(stub_list, attributes(get('::', env))[['stub_list']])
+            if (sep == '\\$') {
+                sep = '$'
+            }
+            stub_list <- c(what)
+            if ("stub_list" %in% names(attributes(get(sep, env)))) {
+                stub_list <- c(stub_list, attributes(get(sep, env))[['stub_list']])
+            }
+
+            create_new_name <- create_create_new_name_function(stub_list, env, sep)
+            assign(sep, create_new_name, env)
         }
-
-        create_new_name <- create_create_new_name_function(stub_list, env)
-        assign('::', create_new_name, env)
     }
 
     if (!is.function(how)) {
@@ -76,8 +80,9 @@ NULL
 }
 
 
-create_create_new_name_function <- function(stub_list, env)
+create_create_new_name_function <- function(stub_list, env, sep)
 {
+    sep
     create_new_name <- function(pkg, func)
     {
         pkg_name  <- deparse(substitute(pkg))
@@ -87,7 +92,7 @@ create_create_new_name_function <- function(stub_list, env)
                 return(eval(parse(text = stub), env))
             }
         }
-        return(eval(parse(text=paste(pkg_name, func_name, sep='::'))))
+        return(eval(parse(text=paste(pkg_name, func_name, sep=sep)), env))
     }
     attributes(create_new_name) <- list(stub_list=stub_list)
     return(create_new_name)

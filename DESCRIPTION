@@ -24,7 +24,6 @@ Suggests:
     rmarkdown (>= 1.0)
 License: MIT + file LICENSE
 Collate:
-    'expect_called.R'
     'expectations.R'
     'function_source_utils.R'
     'mockery.R'

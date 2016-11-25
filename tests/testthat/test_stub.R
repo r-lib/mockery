@@ -65,19 +65,6 @@ test_that('does not stub other namespeaced functions', {
     expect_equal(f(), 'function(x)\n{\nx\n}\n hello there')
 })
 
-test_that('stub and mock work together', {
-    # given
-    f = function(x) x + 10
-    g = function(x) f(x)
-
-    # when
-    stub(g, 'f', 100)
-    expect_called(g, 'f', list(10))
-
-    # then
-    expect_equal(g(10), 100)
-})
-
 test_that('stub multiple functions', {
     # given
     f = function(x) x + 10
