@@ -154,7 +154,7 @@ f = function(x) x + 10
 g = function(x) f(x)
 test_that('mock object returns value', {
     mock_object = mock(1)
-    stub(g, 'f', mock_object) 
+    stub(g, 'f', mock_object)
 
     expect_equal(g('anything'), 1)
     expect_no_calls(mock_object, 1)
@@ -163,13 +163,13 @@ test_that('mock object returns value', {
 
 test_that('mock object multiple return values', {
     mock_object = mock(1, "a", sqrt(3))
-    stub(g, 'f', mock_object) 
+    stub(g, 'f', mock_object)
 
     expect_equal(g('anything'), 1)
     expect_equal(g('anything'), "a")
     expect_equal(g('anything'), sqrt(3))
 })
-                                   
+
 test_that('mock object accessing values of arguments', {
     mock_object <- mock()
     mock_object(x = 1)
@@ -192,4 +192,39 @@ test_that('mock object accessing call expressions', {
 
     expect_equal(calls[[1]], quote(mock_object(x = 1)))
     expect_equal(calls[[2]], quote(mock_object(y = 2)))
+})
+
+library(R6)
+
+some_class = R6Class("some_class",
+    public = list(
+        some_method = function() {return(some_function())},
+        other_method = function() {return('method in class')}
+    )
+)
+
+# Calling function from R6 method
+some_function = function() {return("called from within class")}
+obj = some_class$new()
+test_that('stub works with R6 methods', {
+    stub(obj$some_method, 'some_function', 'stub has been called')
+    expect_equal(obj$some_method(), 'stub has been called')
+})
+
+test_that('does method stay stubbed', {
+    expect_equal(obj$some_method(), 'stub has been called')
+})
+
+# Calling R6 method from function
+other_func = function() {
+    obj = some_class$new()
+    return(obj$other_method())
+}
+test_that('stub works for stubbing R6 methods from within function calls', {
+    stub(other_func, 'obj$other_method', 'stubbed R6 method')
+    expect_equal(other_func(), 'stubbed R6 method')
+})
+
+test_that('stub does not stay in effect', {
+    expect_equal(other_func(), 'method in class')
 })
