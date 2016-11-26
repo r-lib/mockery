@@ -199,7 +199,7 @@ test_that('stub works with R6 methods', {
 })
 
 test_that('does method stay stubbed', {
-    expect_equal(obj$some_method(), 'stub has been called')
+    expect_equal(obj$some_method(), 'called from within class')
 })
 
 # Calling R6 method from function

@@ -50,6 +50,7 @@ NULL
 
     # this is where a stub is going to be assigned in
     env <- new.env(parent = environment(where))
+    test_env <- parent.frame()
 
     for (sep in c('::', "\\$")) {
         if (grepl(sep, what)) {
@@ -59,6 +60,7 @@ NULL
             if (sep == '\\$') {
                 sep = '$'
             }
+
             stub_list <- c(what)
             if ("stub_list" %in% names(attributes(get(sep, env)))) {
                 stub_list <- c(stub_list, attributes(get(sep, env))[['stub_list']])
@@ -69,6 +71,24 @@ NULL
         }
     }
 
+    for (sep in c('::', "\\$")) {
+        if (grepl(sep, where_name)) {
+            elements <- strsplit(where_name, sep)
+            where_name <- paste(elements[[1]][1], elements[[1]][2], sep='XXX')
+
+            if (sep == '\\$') {
+                sep = '$'
+            }
+            stub_list <- c(where_name)
+            if ("stub_list" %in% names(attributes(get(sep, test_env)))) {
+                stub_list <- c(stub_list, attributes(get(sep, test_env))[['stub_list']])
+            }
+
+            create_new_name <- create_create_new_name_function(stub_list, test_env, sep)
+            assign(sep, create_new_name, test_env)
+        }
+    }
+
     if (!is.function(how)) {
         assign(what, function(...) how, env)
     } else {
@@ -76,7 +96,7 @@ NULL
     }
 
     environment(where) <- env
-    assign(where_name, where, parent.frame())
+    assign(where_name, where, test_env)
 }
 
 
