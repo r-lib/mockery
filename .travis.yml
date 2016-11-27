@@ -1,8 +1,8 @@
 language: r
 cache: packages
-r_github_package:
-    - jimhester/covr
+r_packages:
+    - covr
 
 after_success:
-    - Rscript -e 'covr::codecov()'
+    - Rscript -e 'library(covr); codecov()'
 
