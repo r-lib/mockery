@@ -1,4 +1,7 @@
 # mockery
+[![Travis-CI Build Status](https://travis-ci.org/n-s-f/mockery.svg?branch=master)](https://travis-ci.org/n-s-f/mockery)
+[![CRAN version](https://www.r-pkg.org/badges/version/mockery)](https://cran.r-project.org/package=mockery)
+
 A mocking library for R.
 
 ### Installation

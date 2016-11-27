@@ -1,5 +1,3 @@
 language: r
 cache: packages
-script: 
-    - Rscript -e "library(testthat);invisible(source_dir('./',env=globalenv()));test_dir('tests');test_dir('tests',reporter='stop')"
 
