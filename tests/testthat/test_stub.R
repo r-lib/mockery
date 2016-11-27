@@ -215,3 +215,8 @@ test_that('stub works for stubbing R6 methods from within function calls', {
 test_that('stub does not stay in effect', {
     expect_equal(other_func(), 'method in class')
 })
+
+test_that('stub out of namespaced functions', {
+    stub(mockery::get_function_source, 'paste', 'stubbed function')
+    expect_equal(mockery::get_function_source(stub), 'stubbed function')
+})
