@@ -38,13 +38,13 @@ test_that('stubs function with function', {
 
 test_that('stubs function from namespace', {
     # given
-    f = function() mockery::get_function_source(function(x) x)
+    f = function() testthat::capture_output(print('hello'))
 
     # before stubbing
-    expect_equal(trimws(f()), 'function(x)\n{\nx\n}')
+    expect_true(grepl('hello', f()))
 
     # when
-    stub(f, 'mockery::get_function_source', 10)
+    stub(f, 'testthat::capture_output', 10)
 
     # then
     expect_equal(f(), 10)
@@ -53,16 +53,18 @@ test_that('stubs function from namespace', {
 test_that('does not stub other namespeaced functions', {
     # given
     f = function() {
-        a = mockery::get_function_source(function(x) x)
-        b = mockery::stub('a', 'b', 'c')
-        return(paste(a, b))
+        a = testthat::capture_output(print('hello'))
+        b = testthat::is_null('not null')
+        return(c(a, b))
     }
 
     # when
-    stub(f, 'mockery::stub', 'hello there')
+    stub(f, 'testthat::is_null', 'stubbed output')
 
     # then
-    expect_equal(f(), 'function(x)\n{\nx\n}\n hello there')
+    result = f()
+    expect_true(grepl('hello', result[1]))
+    expect_equal(result[2], 'stubbed output')
 })
 
 test_that('stub multiple functions', {
@@ -186,19 +188,20 @@ library(R6)
 some_class = R6Class("some_class",
     public = list(
         some_method = function() {return(some_function())},
+        some_method_prime = function() {return(some_function())},
         other_method = function() {return('method in class')}
     )
 )
 
 # Calling function from R6 method
-some_function = function() {return("called from within class")}
-obj = some_class$new()
+ some_function = function() {return("called from within class")}
+ obj = some_class$new()
 test_that('stub works with R6 methods', {
     stub(obj$some_method, 'some_function', 'stub has been called')
     expect_equal(obj$some_method(), 'stub has been called')
 })
 
-test_that('does method stay stubbed', {
+test_that('R6 method does not stay stubbed', {
     expect_equal(obj$some_method(), 'called from within class')
 })
 
@@ -217,6 +220,25 @@ test_that('stub does not stay in effect', {
 })
 
 test_that('stub out of namespaced functions', {
-    stub(mockery::get_function_source, 'paste', 'stubbed function')
-    expect_equal(mockery::get_function_source(stub), 'stubbed function')
+    expect_true(grepl('hello', testthat::capture_output(print('hello'))))
+    stub(testthat::capture_output, 'paste0', 'stubbed function')
+    expect_equal(testthat::capture_output(print('hello')), 'stubbed function')
 })
+
+test_that('stub multiple namespaced and R6 functions from within test env', {
+    stub(testthat::capture_output, 'paste0', 'stub 1')
+    stub(obj$some_method, 'some_function', 'stub 2')
+    stub(obj$some_method_prime, 'some_function', 'stub 3')
+    stub(testthat::test_that, 'test_code', 'stub 4')
+
+    # all stubs are active
+    expect_equal(testthat::capture_output(print('hello')), 'stub 1')
+    expect_equal(obj$some_method(), 'stub 2')
+    expect_equal(obj$some_method_prime(), 'stub 3')
+    expect_equal(testthat::test_that('a', print), 'stub 4')
+
+    # non mocked R6 and namespaced functions work as expected
+    expect_equal(obj$other_method(), 'method in class')
+    testthat::expect_failure(expect_equal(4, 5))
+})
+
