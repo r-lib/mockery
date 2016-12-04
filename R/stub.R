@@ -44,40 +44,59 @@ NULL
 {
     # `where` needs to be a function
     where_name <- deparse(substitute(where))
-    stopifnot(is.function(where))
   
     # `what` needs to be a character value
     stopifnot(is.character(what), length(what) == 1)
 
     # this is where a stub is going to be assigned in
-    env <- new.env(parent = environment(where))
+    func_env <- new.env(parent = environment(where))
+    test_env <- parent.frame()
 
-    if (grepl('::', what)) {
-        elements  <- strsplit(what, '::')
-        what <- paste(elements[[1]][1], elements[[1]][2], sep='XXX')
-
-        stub_list <- c(what)
-        if ("stub_list" %in% names(attributes(get('::', env)))) {
-            stub_list <- c(stub_list, attributes(get('::', env))[['stub_list']])
-        }
-
-        create_new_name <- create_create_new_name_function(stub_list, env)
-        assign('::', create_new_name, env)
-    }
-
+    what <- override_seperators(what, func_env)
+    where_name <- override_seperators(where_name, test_env)
+    
     if (!is.function(how)) {
-        assign(what, function(...) how, env)
+        assign(what, function(...) how, func_env)
     } else {
-        assign(what, how, env)
+        assign(what, how, func_env)
     }
 
-    environment(where) <- env
-    assign(where_name, where, parent.frame())
+    environment(where) <- func_env
+    assign(where_name, where, test_env)
 }
 
+override_seperators = function(name, env) {
+    for (sep in c('::', "\\$")) {
+        if (grepl(sep, name)) {
+            elements <- strsplit(name, sep)
+            mangled_name <- paste(elements[[1]][1], elements[[1]][2], sep='XXX')
 
-create_create_new_name_function <- function(stub_list, env)
+            if (sep == '\\$') {
+                sep <- '$'
+            }
+
+            stub_list <- c(mangled_name)
+            if ("stub_list" %in% names(attributes(get(sep, env)))) {
+                stub_list <- c(stub_list, attributes(get(sep, env))[['stub_list']])
+            }
+
+            create_new_name <- create_create_new_name_function(stub_list, env, sep)
+            assign(sep, create_new_name, env)
+        }
+    }
+    return(if (exists('mangled_name')) mangled_name else name)
+}
+
+create_create_new_name_function <- function(stub_list, env, sep)
 {
+    force(stub_list)
+    force(env)
+    force(sep)
+
+    # used to avoid recursively calling the replacement function
+    eval_env <- new.env(parent=env)
+    assign(sep, eval(parse(text=paste0('`', sep, '`'))), eval_env)
+
     create_new_name <- function(pkg, func)
     {
         pkg_name  <- deparse(substitute(pkg))
@@ -87,7 +106,8 @@ create_create_new_name_function <- function(stub_list, env)
                 return(eval(parse(text = stub), env))
             }
         }
-        return(eval(parse(text=paste(pkg_name, func_name, sep='::'))))
+        code = paste(pkg_name, func_name, sep=sep)
+        return(eval(parse(text=code), eval_env))
     }
     attributes(create_new_name) <- list(stub_list=stub_list)
     return(create_new_name)
