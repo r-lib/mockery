@@ -111,4 +111,4 @@ and access the arguments with which it was called.
 
 ---
 
-Please report and bugs or feature requests through github issues.
+Please report bugs and feature requests through github issues.
