@@ -44,7 +44,7 @@ f = function(x) g(x) + 1
 test_that('demonstrate stubbing', {
     # replaces 'g' with a function that always returns 100
     # but only when called from f
-    stub(f, 'g', 100')
+    stub(f, 'g', 100)
 
     # this can also be written
     stub(f, 'g', function(...) 100)
