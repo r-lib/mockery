@@ -71,7 +71,7 @@ test_that("error for long call is formatted well", {
     expect_call(m, 1, x)
   })
 
-  expect_no_calls(test_mock, 2)
+  expect_called(test_mock, 2)
   
   err <- paste0(
     'expected call x does not mach actual call ',
@@ -162,19 +162,19 @@ test_that("expect args in with_mock", {
 
 test_that("calls are counted", {
   m <- mock()
-  expect_no_calls(m, 0)
+  expect_called(m, 0)
 
   m()
-  expect_no_calls(m, 1)
+  expect_called(m, 1)
 
   m()
-  expect_no_calls(m, 2)
+  expect_called(m, 2)
 })
 
 
 test_that("appropriate message if counts are missing", {
   m <- mock()
-  expect_failure(expect_no_calls(m, 1), "mock object has not been called 1 time")
-  expect_failure(expect_no_calls(m, 2), "mock object has not been called 2 times")
+  expect_failure(expect_called(m, 1), "mock object has not been called 1 time")
+  expect_failure(expect_called(m, 2), "mock object has not been called 2 times")
 })
 

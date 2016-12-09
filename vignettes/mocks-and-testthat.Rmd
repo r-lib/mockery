@@ -152,24 +152,24 @@ can for example verify the number and signature of calls invoked on a
 mock function, as well as the values of arguments passed in those calls.
 
 First, let's make sure the mocked function is called exactly as many
-times as we expect. This can be done with `expect_no_calls()`.
+times as we expect. This can be done with `expect_called()`.
 
-```{r expect_no_calls}
+```{r expect_called}
 m <- mock(1, 2)
 
 m()
-expect_no_calls(m, 1)
+expect_called(m, 1)
 
 m()
-expect_no_calls(m, 2)
+expect_called(m, 2)
 ```
 
 And here is what happens when we get the number of calls wrong.
 
-```{r expect_no_calls_error, eval=FALSE}
-expect_no_calls(m, 1)
+```{r expect_called_error, eval=FALSE}
+expect_called(m, 1)
 #> Error: mock object has not been called 1 time.
-expect_no_calls(m, 3)
+expect_called(m, 3)
 #> Error: mock object has not been called 3 times.
 ```
 

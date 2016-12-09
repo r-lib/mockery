@@ -3,7 +3,7 @@
 S3method(length,mock)
 export(expect_args)
 export(expect_call)
-export(expect_no_calls)
+export(expect_called)
 export(mock)
 export(mock_args)
 export(mock_calls)
