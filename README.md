@@ -44,7 +44,7 @@ f = function(x) g(x) + 1
 test_that('demonstrate stubbing', {
     # replaces 'g' with a function that always returns 100
     # but only when called from f
-    stub(f, 'g', 100') # equivalently, 
+    stub(f, 'g', 100')
 
     # this can also be written
     stub(f, 'g', function(...) 100)
@@ -55,13 +55,13 @@ test_that('demonstrate stubbing', {
 Stubbing works with classes of all descriptions and namespaced functions:
 
 ```.R
-    # this stubs the 'request_perform' function, but only
-    # for httr::get, and only when it is called from within this
-    # test function
-    stub(httr::GET, 'request_perform', 'some html')
+# this stubs the 'request_perform' function, but only
+# for httr::get, and only when it is called from within this
+# test function
+stub(httr::GET, 'request_perform', 'some html')
         
-    # it is also possible to stub out a namespaced function call
-    stub(some_function, 'namespace::function', 'some return value')
+# it is also possible to stub out a namespaced function call
+stub(some_function, 'namespace::function', 'some return value')
 ```
 
 This also works with R6 classes and methods.
@@ -92,21 +92,21 @@ test_that('demonstrate mock object usage', {
 You can also specify multiple return values
 
 ```.R 
-    mock = mock(1, "a", sqrt(3))
+mock = mock(1, "a", sqrt(3))
 ```
 
 and access the arguments with which it was called.
 
 ```.R
-    mock <- mock()
-    mock(x = 1)
-    mock(y = 2)
+mock <- mock()
+mock(x = 1)
+mock(y = 2)
 
-    expect_equal(length(mock), 2)
-    args <- mock_args(mock)
+expect_equal(length(mock), 2)
+args <- mock_args(mock)
 
-    expect_equal(args[[1]], list(x = 1))
-    expect_equal(args[[2]], list(y = 2))
+expect_equal(args[[1]], list(x = 1))
+expect_equal(args[[2]], list(y = 2))
 ```
 
 ---
