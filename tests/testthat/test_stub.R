@@ -146,7 +146,7 @@ test_that('mock object returns value', {
     stub(g, 'f', mock_object)
 
     expect_equal(g('anything'), 1)
-    expect_no_calls(mock_object, 1)
+    expect_called(mock_object, 1)
     expect_args(mock_object, 1, 'anything')
 })
 

@@ -38,7 +38,7 @@
 #' m <- mock(1)
 #' with_mock(summary = m, {
 #'   expect_equal(summary(iris), 1)
-#'   expect_no_calls(m, 1)
+#'   expect_called(m, 1)
 #'   expect_call(m, 1, summary(iris))
 #'   expect_args(m, 1, iris)
 #' })

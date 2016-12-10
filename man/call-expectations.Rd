@@ -4,14 +4,14 @@
 \alias{call-expectations}
 \alias{expect_args}
 \alias{expect_call}
-\alias{expect_no_calls}
+\alias{expect_called}
 \title{Expectation: does the given call match the expected?}
 \usage{
 expect_call(mock_object, n, expected_call)
 
 expect_args(mock_object, n, ...)
 
-expect_no_calls(mock_object, n)
+expect_called(mock_object, n)
 }
 \arguments{
 \item{mock_object}{A \code{\link{mock}} object.}
@@ -28,7 +28,7 @@ call expression (\code{\link{expect_call}}) and/or argument values
 (\code{\link{expect_args}}) match the expected.
 }
 \details{
-With \code{expect_no_calls} you can check how many times has the mock
+With \code{expect_called} you can check how many times has the mock
 object been called.
 }
 \examples{
@@ -39,7 +39,7 @@ m <- mock()
 with_mock(summary = m, summary(iris))
 
 # it has been called once
-expect_no_calls(m, 1)
+expect_called(m, 1)
 
 # the first (and only) call's arguments matches summary(iris)
 expect_call(m, 1, summary(iris))

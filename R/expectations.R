@@ -5,7 +5,7 @@
 #' call expression (\code{\link{expect_call}}) and/or argument values
 #' (\code{\link{expect_args}}) match the expected.
 #'
-#' With \code{expect_no_calls} you can check how many times has the mock
+#' With \code{expect_called} you can check how many times has the mock
 #' object been called.
 #'
 #' @param mock_object A \code{\link{mock}} object.
@@ -21,7 +21,7 @@
 #' with_mock(summary = m, summary(iris))
 #'
 #' # it has been called once
-#' expect_no_calls(m, 1)
+#' expect_called(m, 1)
 #'
 #' # the first (and only) call's arguments matches summary(iris)
 #' expect_call(m, 1, summary(iris))
@@ -118,7 +118,7 @@ ordinal <- function (x)
 
 #' @export
 #' @rdname call-expectations
-expect_no_calls <- function (mock_object, n)
+expect_called <- function (mock_object, n)
 {
   stopifnot(is_mock(mock_object))
 
