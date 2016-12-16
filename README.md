@@ -68,6 +68,21 @@ This also works with R6 classes and methods.
 
 For more examples, please see the test code contained in this repository.
 
+##### Comparison to with_mock
+
+Mockery's `stub` function has similar functionality to testthat's `with_mock`.
+Whereas `with_mock` messes with the underlying C code, `stub` works entirely
+within the bounds of R by manipulating environments. This means that it doesn't
+encounter the same limitations as `with_mock` with regard to stubbing primatives,
+and won't get you into trouble if you mock base R packages that the JIT compiler
+will try to use. Also unlike `with_mock`, `stub` only replaces the function
+of interest from inside the target function, and only when called from the
+test function. This means that stubbing won't mess up your tests if you run
+them in parallel. At the moment, `stub` will only replace a function of interest
+if it is called _directly_ from the target function, but I'm
+[looking into](https://github.com/n-s-f/mockery/issues/17) allowing for the
+user to specify the 'depth' of stubbing.
+
 #### Mocking
 
 Mock objects allow you to specify the behavior of the function you've stubbed
