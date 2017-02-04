@@ -77,10 +77,7 @@ encounter the same limitations as `with_mock` with regard to stubbing primatives
 and won't get you into trouble if you mock base R packages that the JIT compiler
 will try to use. Also unlike `with_mock`, `stub` only replaces the function
 of interest from inside the target function, and only when called from the
-test function. At the moment, `stub` will only replace a function of interest
-if it is called _directly_ from the target function, but I'm
-[looking into](https://github.com/n-s-f/mockery/issues/17) allowing for the
-user to specify the 'depth' of stubbing.
+test function.
 
 #### Mocking
 
