@@ -185,11 +185,24 @@ test_that('mock object accessing call expressions', {
 
 library(R6)
 
+some_other_class = R6Class("some_class",
+    public = list(
+        external_method = function() {return('this is external output')}
+    )
+)
+
 some_class = R6Class("some_class",
     public = list(
         some_method = function() {return(some_function())},
         some_method_prime = function() {return(some_function())},
-        other_method = function() {return('method in class')}
+        other_method = function() {return('method in class')},
+        method_without_other = function() { self$other_method() },
+        method_with_other = function() {
+          other <- some_other_class$new()
+          print(other)
+          other$external_method()
+          self$other_method()
+        }
     )
 )
 
@@ -199,6 +212,18 @@ some_class = R6Class("some_class",
 test_that('stub works with R6 methods', {
     stub(obj$some_method, 'some_function', 'stub has been called')
     expect_equal(obj$some_method(), 'stub has been called')
+})
+
+test_that('stub works with R6 methods that call internal methods in them', {
+    # This works
+    stub(obj$method_without_other, 'self$other_method', 'stub has been called')
+    expect_equal(obj$method_without_other(), 'stub has been called')
+})
+
+test_that('stub works with R6 methods that have other objects in them', {
+    # This does not work
+    stub(obj$method_with_other, 'self$other_method', 'stub has been called')
+    expect_equal(obj$method_with_other(), 'stub has been called')
 })
 
 test_that('R6 method does not stay stubbed', {
