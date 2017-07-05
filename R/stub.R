@@ -107,7 +107,7 @@ create_create_new_name_function <- function(stub_list, env, sep)
             }
         }
         code = paste(pkg_name, func_name, sep=sep)
-        return(eval(parse(text=code), env))
+        return(eval(parse(text=code), eval_env))
     }
     attributes(create_new_name) <- list(stub_list=stub_list)
     return(create_new_name)
