@@ -189,16 +189,27 @@ some_class = R6Class("some_class",
     public = list(
         some_method = function() {return(some_function())},
         some_method_prime = function() {return(some_function())},
-        other_method = function() {return('method in class')}
+        other_method = function() {return('method in class')},
+        with_internal_obj = function() {
+            other = some_class$new()
+            other$some_method_prime()
+            self$other_method()
+        }
     )
 )
 
 # Calling function from R6 method
- some_function = function() {return("called from within class")}
- obj = some_class$new()
+some_function = function() {return("called from within class")}
+obj = some_class$new()
+
 test_that('stub works with R6 methods', {
     stub(obj$some_method, 'some_function', 'stub has been called')
     expect_equal(obj$some_method(), 'stub has been called')
+})
+
+test_that('stub works with R6 methods with internal objects', {
+    stub(obj$with_internal_obj, 'self$other_method', 'stub has been called')
+    expect_equal(obj$with_internal_obj(), 'stub has been called')
 })
 
 test_that('R6 method does not stay stubbed', {
@@ -210,6 +221,7 @@ other_func = function() {
     obj = some_class$new()
     return(obj$other_method())
 }
+
 test_that('stub works for stubbing R6 methods from within function calls', {
     stub(other_func, 'obj$other_method', 'stubbed R6 method')
     expect_equal(other_func(), 'stubbed R6 method')

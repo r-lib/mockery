@@ -93,10 +93,6 @@ create_create_new_name_function <- function(stub_list, env, sep)
     force(env)
     force(sep)
 
-    # used to avoid recursively calling the replacement function
-    eval_env <- new.env(parent=env)
-    assign(sep, eval(parse(text=paste0('`', sep, '`'))), eval_env)
-
     create_new_name <- function(pkg, func)
     {
         pkg_name  <- deparse(substitute(pkg))
@@ -106,6 +102,11 @@ create_create_new_name_function <- function(stub_list, env, sep)
                 return(eval(parse(text = stub), env))
             }
         }
+
+        # used to avoid recursively calling the replacement function
+        eval_env = new.env(parent=parent.frame())
+        assign(sep, eval(parse(text=paste0('`', sep, '`'))), eval_env)
+
         code = paste(pkg_name, func_name, sep=sep)
         return(eval(parse(text=code), eval_env))
     }
