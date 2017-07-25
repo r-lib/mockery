@@ -185,31 +185,44 @@ test_that('mock object accessing call expressions', {
 
 library(R6)
 
+some_other_class = R6Class("some_class",
+    public = list(
+        external_method = function() {return('this is external output')}
+    )
+)
+
 some_class = R6Class("some_class",
     public = list(
         some_method = function() {return(some_function())},
         some_method_prime = function() {return(some_function())},
         other_method = function() {return('method in class')},
-        with_internal_obj = function() {
-            other = some_class$new()
-            other$some_method_prime()
-            self$other_method()
+        method_without_other = function() { self$other_method() },
+        method_with_other = function() {
+          other <- some_other_class$new()
+          other$external_method()
+          self$other_method()
         }
     )
 )
 
 # Calling function from R6 method
-some_function = function() {return("called from within class")}
-obj = some_class$new()
-
+ some_function = function() {return("called from within class")}
+ obj = some_class$new()
 test_that('stub works with R6 methods', {
     stub(obj$some_method, 'some_function', 'stub has been called')
     expect_equal(obj$some_method(), 'stub has been called')
 })
 
-test_that('stub works with R6 methods with internal objects', {
-    stub(obj$with_internal_obj, 'self$other_method', 'stub has been called')
-    expect_equal(obj$with_internal_obj(), 'stub has been called')
+test_that('stub works with R6 methods that call internal methods in them', {
+    # This works
+    stub(obj$method_without_other, 'self$other_method', 'stub has been called')
+    expect_equal(obj$method_without_other(), 'stub has been called')
+})
+
+test_that('stub works with R6 methods that have other objects in them', {
+    # This does not work
+    stub(obj$method_with_other, 'self$other_method', 'stub has been called')
+    expect_equal(obj$method_with_other(), 'stub has been called')
 })
 
 test_that('R6 method does not stay stubbed', {
@@ -221,7 +234,6 @@ other_func = function() {
     obj = some_class$new()
     return(obj$other_method())
 }
-
 test_that('stub works for stubbing R6 methods from within function calls', {
     stub(other_func, 'obj$other_method', 'stubbed R6 method')
     expect_equal(other_func(), 'stubbed R6 method')
@@ -253,4 +265,3 @@ test_that('stub multiple namespaced and R6 functions from within test env', {
     expect_equal(obj$other_method(), 'method in class')
     testthat::expect_failure(expect_equal(4, 5))
 })
-
