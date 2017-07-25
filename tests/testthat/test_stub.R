@@ -214,13 +214,11 @@ test_that('stub works with R6 methods', {
 })
 
 test_that('stub works with R6 methods that call internal methods in them', {
-    # This works
     stub(obj$method_without_other, 'self$other_method', 'stub has been called')
     expect_equal(obj$method_without_other(), 'stub has been called')
 })
 
 test_that('stub works with R6 methods that have other objects in them', {
-    # This does not work
     stub(obj$method_with_other, 'self$other_method', 'stub has been called')
     expect_equal(obj$method_with_other(), 'stub has been called')
 })
