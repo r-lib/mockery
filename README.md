@@ -83,9 +83,9 @@ that the JIT compiler might try to use. These kinds of problems are avoided by `
 design. As of version 2.0.0 of testthat, this will be impossible to mock functions from
 base R packages `with_mock`.
 
-The functionality of `stub` is slightly different. Instead of mocking out the object
-of interest for the duration of some code block, it mocks it out only when it is called
-from a specified function.
+The functionality of `stub` is just slightly different than that of `with_mock`. Instead
+of mocking out the objectof interest for the duration of some code block, it mocks it
+out only when it is called from a specified function.
 
 #### Mocking
 
