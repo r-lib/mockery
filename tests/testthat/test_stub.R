@@ -263,3 +263,21 @@ test_that('stub multiple namespaced and R6 functions from within test env', {
     expect_equal(obj$other_method(), 'method in class')
     testthat::expect_failure(expect_equal(4, 5))
 })
+
+h = function(x) 'called h'
+g = function(x) h(x)
+f = function(x) g(x)
+test_that('use can specify depth of mocking', {
+    stub_string = 'called stub!'
+    stub(f, 'h', stub_string, depth=2)
+    expect_equal(f(1), stub_string)
+})
+
+h = function(x) 'called h'
+g = function(x) h(x)
+f = function(x) paste0(h(x), g(x))
+test_that('use can specify depth of mocking', {
+    stub_string = 'called stub!'
+    stub(f, 'h', stub_string, depth=2)
+    expect_equal(f(1), 'called stub!called stub!')
+})

@@ -40,7 +40,7 @@ NULL
 #' # now g() returns FALSE because f() has been stubbed out
 #' g()
 #' 
-`stub` <- function (where, what, how)
+`stub` <- function (where, what, how, depth=1)
 {
     # `where` needs to be a function
     where_name <- deparse(substitute(where))
@@ -48,21 +48,35 @@ NULL
     # `what` needs to be a character value
     stopifnot(is.character(what), length(what) == 1)
 
-    # this is where a stub is going to be assigned in
-    func_env <- new.env(parent = environment(where))
     test_env <- parent.frame()
+    tree <- build_function_tree(test_env, where, where_name, depth)
 
-    what <- override_seperators(what, func_env)
-    where_name <- override_seperators(where_name, test_env)
-    
-    if (!is.function(how)) {
-        assign(what, function(...) how, func_env)
-    } else {
-        assign(what, how, func_env)
-    }
+    mock_through_tree(tree, what, how)
+}
 
-    environment(where) <- func_env
-    assign(where_name, where, test_env)
+mock_through_tree <- function(tree, what, how) {
+    for (d in tree) {
+        for (parent in d) {
+            parent_env = parent[['parent_env']]
+            func_dict = parent[['funcs']]
+            for (func_name in ls(func_dict)) {
+                func = func_dict[[func_name]]
+                func_env = new.env(parent = environment(func))
+
+                what <- override_seperators(what, func_env)
+                where_name <- override_seperators(func_name, parent_env)
+
+                if (!is.function(how)) {
+                    assign(what, function(...) how, func_env)
+                } else {
+                    assign(what, how, func_env)
+                }
+
+                environment(func) <- func_env
+                assign(where_name, func, parent_env)
+            }
+        }
+  }
 }
 
 override_seperators = function(name, env) {
@@ -114,3 +128,41 @@ create_create_new_name_function <- function(stub_list, env, sep)
     return(create_new_name)
 }
 
+build_function_tree <- function(test_env, where, where_name, depth)
+{
+    func_dict = new.env()
+    func_dict[[where_name]] = where
+    tree = list(
+        # one depth
+        list(
+            # one parent
+            list(parent_env=test_env, funcs=func_dict)
+        )
+    )
+
+    if (depth > 1) {
+        for (d in depth:2) {
+            for (funcs in tree[[d - 1]]) {
+                parent_dict = funcs[['funcs']]
+                num_parents = 0
+                new_depth = list()
+                for (parent_name in ls(parent_dict)) {
+                    func_dict = new.env()
+                    parent_env = environment(get(parent_name, parent_dict))
+                    for (func_name in ls(parent_env)) {
+                        func = get(func_name, parent_env)
+                        if (is.function(func)) {
+                            func_dict[[func_name]] = func
+                        }
+                    }
+                }
+                new_parent = list(parent_env=parent_env, funcs=func_dict)
+                num_parents = num_parents + 1
+                new_depth[[num_parents]] = new_parent
+            }
+
+            tree[[d]] = new_depth
+        }
+    }
+    return(tree)
+}
