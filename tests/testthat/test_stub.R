@@ -276,7 +276,7 @@ test_that('use can specify depth of mocking', {
 h = function(x) 'called h'
 g = function(x) h(x)
 f = function(x) paste0(h(x), g(x))
-test_that('use can specify depth of mocking', {
+test_that('mocked function is mocked at all depths', {
     stub_string = 'called stub!'
     stub(f, 'h', stub_string, depth=2)
     expect_equal(f(1), 'called stub!called stub!')
