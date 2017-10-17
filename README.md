@@ -71,13 +71,21 @@ For more examples, please see the test code contained in this repository.
 ##### Comparison to with_mock
 
 Mockery's `stub` function has similar functionality to testthat's `with_mock`.
-Whereas `with_mock` messes with the underlying C code, `stub` works entirely
-within the bounds of R by manipulating environments. This means that it doesn't
-encounter the same limitations as `with_mock` with regard to stubbing primatives,
-and won't get you into trouble if you mock base R packages that the JIT compiler
-will try to use. Also unlike `with_mock`, `stub` only replaces the function
-of interest from inside the target function, and only when called from the
-test function.
+
+There are several use cases in which mockery's `stub` function will work, but
+testthat's `with_mock` will not.
+
+First, unlike `with_mock`, it seamlessly allows for mocking out primitives.
+
+Second, it is easy to stub out functions from base R packages with mockery's `stub`.
+Because of how `with_mock` works, you can get into trouble if you mock such functions 
+that the JIT compiler might try to use. These kinds of problems are avoided by `stub`'s
+design. As of version 2.0.0 of testthat, this will be impossible to mock functions from
+base R packages `with_mock`.
+
+The functionality of `stub` is slightly different. Instead of mocking out the object
+of interest for the duration of some code block, it mocks it out only when it is called
+from a specified function.
 
 #### Mocking
 
