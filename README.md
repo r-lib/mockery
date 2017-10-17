@@ -80,11 +80,11 @@ First, unlike `with_mock`, it seamlessly allows for mocking out primitives.
 Second, it is easy to stub out functions from base R packages with mockery's `stub`.
 Because of how `with_mock` works, you can get into trouble if you mock such functions 
 that the JIT compiler might try to use. These kinds of problems are avoided by `stub`'s
-design. As of version 2.0.0 of testthat, this will be impossible to mock functions from
+design. As of version 2.0.0 of testthat, it will be impossible to mock functions from
 base R packages `with_mock`.
 
 The functionality of `stub` is just slightly different than that of `with_mock`. Instead
-of mocking out the objectof interest for the duration of some code block, it mocks it
+of mocking out the object of interest for the duration of some code block, it mocks it
 out only when it is called from a specified function.
 
 #### Mocking
