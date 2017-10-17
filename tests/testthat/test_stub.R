@@ -281,3 +281,13 @@ test_that('mocked function is mocked at all depths', {
     stub(f, 'h', stub_string, depth=2)
     expect_equal(f(1), 'called stub!called stub!')
 })
+
+h = function(x) 'called h'
+g = function(x) h(x)
+r = function(x) g(x)
+f = function(x) paste0(h(x), r(x))
+test_that('mocked function is mocked at all depths', {
+    stub_string = 'called stub!'
+    stub(f, 'h', stub_string, depth=3)
+    expect_equal(f(1), 'called stub!called stub!')
+})

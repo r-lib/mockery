@@ -141,7 +141,7 @@ build_function_tree <- function(test_env, where, where_name, depth)
     )
 
     if (depth > 1) {
-        for (d in depth:2) {
+        for (d in 2:depth) {
             for (funcs in tree[[d - 1]]) {
                 parent_dict = funcs[['funcs']]
                 num_parents = 0
