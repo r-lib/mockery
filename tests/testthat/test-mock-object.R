@@ -59,9 +59,8 @@ test_that("expect calls", {
 
 test_that("error for long call is formatted well", {
   m <- mock()
-  with_mock(`utils::read.table` = m, {
-    read.csv('file.csv')
-  })
+  mockery::stub(read.csv, "read.table", m)
+  read.csv('file.csv')
 
   # test mock with mock, how crazy is that!
   # we cannot call expect_failure because it messes up calls to expect()
