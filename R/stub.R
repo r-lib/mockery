@@ -155,12 +155,12 @@ build_function_tree <- function(test_env, where, where_name, depth)
                             func_dict[[func_name]] = func
                         }
                     }
-                }
-                new_parent = list(parent_env=parent_env, funcs=func_dict)
-                num_parents = num_parents + 1
-                new_depth[[num_parents]] = new_parent
-            }
 
+                    new_parent = list(parent_env=parent_env, funcs=func_dict)
+                    num_parents = num_parents + 1
+                    new_depth[[num_parents]] = new_parent
+                }
+            }
             tree[[d]] = new_depth
         }
     }

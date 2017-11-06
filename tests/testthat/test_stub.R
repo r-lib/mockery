@@ -291,3 +291,35 @@ test_that('mocked function is mocked at all depths', {
     stub(f, 'h', stub_string, depth=3)
     expect_equal(f(1), 'called stub!called stub!')
 })
+
+h = function(x) 'called h'
+t = function(x) h(x)
+g = function(x) h(x)
+r = function(x) paste0(t(x), g(x))
+u = function(x) paste0(h(x), g(x))
+
+f = function(x) paste0(h(x), r(x), u(x))
+
+t_env = new.env(parent=baseenv())
+assign('h', h, t_env)
+environment(t) = t_env
+
+u_env = new.env(parent=baseenv())
+assign('g', g, u_env)
+assign('h', h, u_env)
+environment(u) = u_env
+
+f_env = new.env(parent=baseenv())
+assign('u', u, f_env)
+assign('h', h, f_env)
+assign('r', r, f_env)
+environment(f) = f_env
+
+a = function(x) x
+environment(a) = f_env
+
+test_that('mocked function is mocked at all depths across paths', {
+    stub_string = 'called stub!'
+    stub(f, 'h', stub_string, depth=4)
+    expect_equal(f(1), 'called stub!called stub!called stub!called stub!called stub!')
+})
