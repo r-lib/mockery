@@ -142,10 +142,10 @@ build_function_tree <- function(test_env, where, where_name, depth)
 
     if (depth > 1) {
         for (d in 2:depth) {
+            num_parents = 0
+            new_depth = list()
             for (funcs in tree[[d - 1]]) {
                 parent_dict = funcs[['funcs']]
-                num_parents = 0
-                new_depth = list()
                 for (parent_name in ls(parent_dict)) {
                     func_dict = new.env()
                     parent_env = environment(get(parent_name, parent_dict))
