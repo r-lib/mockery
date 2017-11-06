@@ -2,8 +2,8 @@
 % Please edit documentation in R/expectations.R
 \name{call-expectations}
 \alias{call-expectations}
-\alias{expect_args}
 \alias{expect_call}
+\alias{expect_args}
 \alias{expect_called}
 \title{Expectation: does the given call match the expected?}
 \usage{
@@ -53,4 +53,3 @@ expect_args(m, 1, object = a)
 expect_equal(mock_args(m)[[1]], list(object = a))
 
 }
-

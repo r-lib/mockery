@@ -2,9 +2,10 @@
 % Please edit documentation in R/stub.R
 \name{stub}
 \alias{stub}
+\alias{stub}
 \title{Replace a function with a stub.}
 \usage{
-stub(where, what, how)
+stub(where, what, how, depth = 1)
 }
 \arguments{
 \item{where}{Function to be called that will in turn call
@@ -16,6 +17,8 @@ stub(where, what, how)
 \item{how}{Replacement function (also a \code{\link{mock}} function)
 or a return value for which a function will be created
 automatically.}
+
+\item{depth}{Specifies the depth to which the function should be stubbed}
 }
 \description{
 The result of calling \code{stub} is that, when \code{where}
@@ -40,4 +43,3 @@ stub(g, 'f', FALSE)
 g()
 
 }
-

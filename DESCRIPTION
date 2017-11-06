@@ -17,8 +17,7 @@ Authors@R: c(
 URL: https://github.com/n-s-f/mockery
 BugReports: https://github.com/n-s-f/mockery/issues
 Imports:
-    testthat,
-    utils
+    testthat
 Suggests:
     knitr,
     rmarkdown (>= 1.0)
