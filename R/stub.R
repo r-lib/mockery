@@ -28,6 +28,7 @@ NULL
 #' @param how Replacement function (also a \code{\link{mock}} function)
 #'        or a return value for which a function will be created
 #'        automatically.
+#' @param depth Specifies the depth to which the function should be stubbed
 #' 
 #' @export
 #' @rdname stub
