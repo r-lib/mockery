@@ -81,7 +81,7 @@ g = function(y) y
 f = function(x) g(x) + 1
 r = function(x) g(x) + f(x)
 test_that('demonstrate stubbing', {
-    stub(f, 'g', 100, depth=2)
+    stub(r, 'g', 100, depth=2)
     expect_equal(r(1), 201)
 })
 ```
