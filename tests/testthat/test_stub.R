@@ -323,3 +323,10 @@ test_that('mocked function is mocked at all depths across paths', {
     stub(f, 'h', stub_string, depth=4)
     expect_equal(f(1), 'called stub!called stub!called stub!called stub!called stub!')
 })
+
+.a = function(x) h(x)
+test_that('mocks hidden functions', {
+    stub_string = 'called stub!'
+    stub(.a, 'h', stub_string, depth=4)
+    expect_equal(f(1), 'called stub!called stub!called stub!called stub!called stub!')
+})

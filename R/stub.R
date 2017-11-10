@@ -60,7 +60,7 @@ mock_through_tree <- function(tree, what, how) {
         for (parent in d) {
             parent_env = parent[['parent_env']]
             func_dict = parent[['funcs']]
-            for (func_name in ls(func_dict)) {
+            for (func_name in ls(func_dict, all.names=TRUE)) {
                 func = func_dict[[func_name]]
                 func_env = new.env(parent = environment(func))
 
@@ -147,10 +147,10 @@ build_function_tree <- function(test_env, where, where_name, depth)
             new_depth = list()
             for (funcs in tree[[d - 1]]) {
                 parent_dict = funcs[['funcs']]
-                for (parent_name in ls(parent_dict)) {
+                for (parent_name in ls(parent_dict, all.names=TRUE)) {
                     func_dict = new.env()
                     parent_env = environment(get(parent_name, parent_dict))
-                    for (func_name in ls(parent_env)) {
+                    for (func_name in ls(parent_env, all.names=TRUE)) {
                         func = get(func_name, parent_env)
                         if (is.function(func)) {
                             func_dict[[func_name]] = func
