@@ -1,0 +1,12 @@
+v 0.4.1
+
+Fix bug whereby functions that begin with `.` don't have things mocked out in
+them.
+
+v 0.4.0
+
+Add support for stubbing depth greater than 1.
+
+Add support for nested R6 classes.
+
+
