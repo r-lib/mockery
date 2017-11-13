@@ -2,6 +2,7 @@
 [![Travis-CI Build Status](https://travis-ci.org/n-s-f/mockery.svg?branch=master)](https://travis-ci.org/n-s-f/mockery)
 [![Coverage Status](https://img.shields.io/codecov/c/github/n-s-f/mockery/master.svg)](https://codecov.io/github/n-s-f/mockery?branch=master)
 [![CRAN version](http://www.r-pkg.org/badges/version/mockery)](https://cran.r-project.org/package=mockery)
+[![Downloads](http://cranlogs.r-pkg.org/badges/mockery)](http://cran.rstudio.com/web/packages/mockery/index.html)
 
 A mocking library for R.
 
