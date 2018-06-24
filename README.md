@@ -120,12 +120,12 @@ test_that('demonstrate mock object usage', {
     # mocks can specify behavior
     mock = mock(100)
     stub(f, 'g', mock)
-    result = g(5)
+    result = f(5)
     expect_equal(result, 101)
 
     # and allow you to make assertions on the mock was treated
     expect_called(mock, 1)
-    expect_args(mock, 5)
+    expect_args(mock, 1, 5)
 })
 ```
 
