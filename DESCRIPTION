@@ -14,8 +14,8 @@ Authors@R: c(
     person("Lukasz", "Bartnik", rol = c("aut"),
            email = "l.bartnik@gmail.com")
     )
-URL: https://github.com/n-s-f/mockery
-BugReports: https://github.com/n-s-f/mockery/issues
+URL: https://github.com/jfiksel/mockery
+BugReports: https://github.com/jfiksel/mockery/issues
 Imports:
     testthat
 Suggests:
