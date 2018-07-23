@@ -1,6 +1,6 @@
 # mockery
-[![Travis-CI Build Status](https://travis-ci.org/n-s-f/mockery.svg?branch=master)](https://travis-ci.org/n-s-f/mockery)
-[![Coverage Status](https://img.shields.io/codecov/c/github/n-s-f/mockery/master.svg)](https://codecov.io/github/n-s-f/mockery?branch=master)
+[![Travis-CI Build Status](https://travis-ci.org/jfiksel/mockery.svg?branch=master)](https://travis-ci.org/jfiksel/mockery)
+[![Coverage Status](https://img.shields.io/codecov/c/github/jfiksel/mockery/master.svg)](https://codecov.io/github/jfiksel/mockery?branch=master)
 [![CRAN version](http://www.r-pkg.org/badges/version/mockery)](https://cran.r-project.org/package=mockery)
 [![Downloads](http://cranlogs.r-pkg.org/badges/mockery)](http://cran.rstudio.com/web/packages/mockery/index.html)
 
@@ -22,7 +22,7 @@ To install directly from the source code in this github repository:
 >
 > # Then:
 > library('devtools')
-> devtools::install_github('n-s-f/mockery')
+> devtools::install_github('jfiksel/mockery')
 ```
 
 ### Testing
