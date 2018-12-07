@@ -81,14 +81,10 @@ mock_through_tree <- function(tree, what, how) {
 }
 
 override_seperators = function(name, env) {
-    for (sep in c('::', "\\$")) {
-        if (grepl(sep, name)) {
-            elements <- strsplit(name, sep)
-            mangled_name <- paste(elements[[1]][1], elements[[1]][2], sep='XXX')
-
-            if (sep == '\\$') {
-                sep <- '$'
-            }
+    for (sep in c('::', "$")) {
+        if (grepl(sep, name, fixed = TRUE)) {
+            elements <- strsplit(name, sep, fixed = TRUE)
+            mangled_name <- paste(elements[[1L]][1L], elements[[1L]][2L], sep='XXX')
 
             stub_list <- c(mangled_name)
             if ("stub_list" %in% names(attributes(get(sep, env)))) {
