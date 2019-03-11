@@ -20,7 +20,8 @@ Imports:
     testthat
 Suggests:
     knitr,
-    rmarkdown (>= 1.0)
+    rmarkdown (>= 1.0),
+    R6
 License: MIT + file LICENSE
 Collate:
     'expectations.R'
