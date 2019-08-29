@@ -9,10 +9,10 @@ Description:
     be injected with either this package's own stub() function or a
     similar with_mock() facility present in the 'testthat' package.
 Authors@R: c(
-    person("Noam", "Finkelstein", role = c("aut", "cre"),
-           email = "noam.finkelstein@jhu.edu"),
-    person("Lukasz", "Bartnik", rol = c("aut"),
-           email = "l.bartnik@gmail.com")
+    person("Noam", "Finkelstein", role = c("aut")),
+    person("Lukasz", "Bartnik", rol = c("aut")),
+    person("Jim", "Hester", role = c("cre"),
+           email = "jim.hester@rstudio.com")
     )
 URL: https://github.com/jfiksel/mockery
 BugReports: https://github.com/jfiksel/mockery/issues
