@@ -330,3 +330,16 @@ test_that('mocks hidden functions', {
     stub(.a, 'h', stub_string, depth=4)
     expect_equal(f(1), 'called stub!called stub!called stub!called stub!called stub!')
 })
+
+test_that("Does not error if function contains double quoted assignment functions", {
+    f <- function(x, nms) {
+      base::names(x) <- base::tolower(nms)
+      x
+    }
+
+    stub(f, "base::tolower", toupper)
+    expect_equal(f(1, "b"), c(B = 1))
+
+    stub(f, "base::names<-", function(x, value) stats::setNames(x, "d"))
+    expect_equal(f(1, "b"), c(d = 1))
+})

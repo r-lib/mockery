@@ -98,6 +98,10 @@ override_seperators = function(name, env) {
     return(if (exists('mangled_name')) mangled_name else name)
 }
 
+backtick <- function(x) {
+    encodeString(x, quote = "`", na.encode = FALSE)
+}
+
 create_create_new_name_function <- function(stub_list, env, sep)
 {
     force(stub_list)
@@ -110,7 +114,7 @@ create_create_new_name_function <- function(stub_list, env, sep)
         func_name <- deparse(substitute(func))
         for(stub in stub_list) {
             if (paste(pkg_name, func_name, sep='XXX') == stub) {
-                return(eval(parse(text = stub), env))
+                return(eval(parse(text = backtick(stub)), env))
             }
         }
 
@@ -118,7 +122,7 @@ create_create_new_name_function <- function(stub_list, env, sep)
         eval_env = new.env(parent=parent.frame())
         assign(sep, eval(parse(text=paste0('`', sep, '`'))), eval_env)
 
-        code = paste(pkg_name, func_name, sep=sep)
+        code = paste(pkg_name, backtick(func_name), sep=sep)
         return(eval(parse(text=code), eval_env))
     }
     attributes(create_new_name) <- list(stub_list=stub_list)
