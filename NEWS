@@ -1,3 +1,7 @@
+v dev
+
+`stub()` now works if the function being stubbed contains assignment functions (@jimhester, #23).
+
 v 0.4.1
 
 Fix bug whereby functions that begin with `.` don't have things mocked out in
