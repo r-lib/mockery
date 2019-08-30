@@ -4,3 +4,4 @@
 ^revdep/
 ^.travis.yml
 ^script\.R$
+^CRAN-RELEASE$
