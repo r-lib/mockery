@@ -10,7 +10,7 @@ Description:
     similar with_mock() facility present in the 'testthat' package.
 Authors@R: c(
     person("Noam", "Finkelstein", role = c("aut")),
-    person("Lukasz", "Bartnik", rol = c("aut")),
+    person("Lukasz", "Bartnik", role = c("aut")),
     person("Jim", "Hester", role = c("cre"),
            email = "jim.hester@rstudio.com")
     )
