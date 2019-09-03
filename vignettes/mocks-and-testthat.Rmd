@@ -18,7 +18,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 
 Mock object, which is a part of the `mockery` package, started as an
-extension to [testthat](github.com/hadley/testthat)'s `with_mock()`
+extension to [testthat](https://github.com/r-lib/testthat)'s `with_mock()`
 facility. Its main purpose was to simplify the replacement (mocking)
 of a given function by means of `with_mock` and the later
 verification of actual calls invoked on the replacing function.
@@ -249,4 +249,4 @@ expect_args(m, 1, iris)
 More information can be found in examples presented in manual pages
 for `?mock` and `?expect_call`. Extensive information about testing
 in R can be found in the documentation for the
-[testthat](github.com/hadley/testthat) package.
+[testthat](https://github.com/r-lib/testthat) package.
