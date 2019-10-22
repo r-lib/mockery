@@ -12,7 +12,7 @@
 #' 
 #' m <- mock(TRUE, FALSE, TRUE)
 #' 
-#' # this will make summary call our mock function rather then
+#' # this will make summary call our mock function rather than
 #' # UseMethod; thus, summary() will return values as above
 #' stub(summary, 'UseMethod', m)
 #' 
