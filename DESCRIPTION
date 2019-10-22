@@ -14,8 +14,8 @@ Authors@R: c(
     person("Jim", "Hester", role = c("cre"),
            email = "jim.hester@rstudio.com")
     )
-URL: https://github.com/jfiksel/mockery
-BugReports: https://github.com/jfiksel/mockery/issues
+URL: https://github.com/r-lib/mockery
+BugReports: https://github.com/r-lib/mockery/issues
 Imports:
     testthat
 Suggests:
