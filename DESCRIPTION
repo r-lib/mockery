@@ -1,5 +1,5 @@
 Package: mockery
-Version: 0.4.2
+Version: 0.4.2.9000
 Title: Mocking Library for R
 Description:
     The two main functionalities of this package are creating mock

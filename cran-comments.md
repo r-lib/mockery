@@ -1,3 +1,5 @@
+This is a resubmission. Compared to the last submission this fixes URLs in the vignette.
+
 This release makes Jim Hester the new maintainer
 
 ## Test environments
