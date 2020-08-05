@@ -3,7 +3,6 @@
 \docType{package}
 \name{mockery}
 \alias{mockery}
-\alias{mockery-package}
 \title{R package to make mocking easier}
 \description{
 There are great tools for unit testing in R out there already but
