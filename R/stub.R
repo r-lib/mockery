@@ -41,6 +41,16 @@ NULL
 #' # now g() returns FALSE because f() has been stubbed out
 #' g()
 #' 
+#' # you can stub multiple functions by calling stub() multiple times 
+#' f <- function() TRUE
+#' g <- function() TRUE
+#' h <- function() any(f(), g())
+#' stub(h, 'f', FALSE)
+#' stub(h, 'g', FALSE)
+#' 
+#' # now h() returns FALSE because both f() and g() have been stubbed out
+#' h()
+#' 
 `stub` <- function (where, what, how, depth=1)
 {
     # `where` needs to be a function

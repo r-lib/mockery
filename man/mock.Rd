@@ -2,7 +2,6 @@
 % Please edit documentation in R/mock-object.R
 \name{mock}
 \alias{mock}
-\alias{mock}
 \alias{mock_args}
 \alias{mock_calls}
 \alias{length.mock}
