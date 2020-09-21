@@ -1,5 +1,7 @@
 # mockery (development version)
 
+* `stub()` now unlocks/relocks locked bindings as required (@sambrightman, #30).
+
 # mockery 0.4.2
 
 * The R6 package has been added to Suggests, as requested by CRAN.
