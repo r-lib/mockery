@@ -1,5 +1,7 @@
 # mockery (development version)
 
+* Hadley Wickham is now the maintainer.
+
 * `stub()` now unlocks/relocks locked bindings as required (@sambrightman, #30).
 
 # mockery 0.4.2
