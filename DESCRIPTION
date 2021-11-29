@@ -4,7 +4,7 @@ Version: 0.4.2.9000
 Authors@R: c(
     person("Noam", "Finkelstein", role = "aut"),
     person("Lukasz", "Bartnik", role = "aut"),
-    person("Jim", "Hester", role = "cre"),
+    person("Jim", "Hester", role = "aut"),
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre"))
   )
 Description: The two main functionalities of this package are creating
@@ -14,8 +14,8 @@ Description: The two main functionalities of this package are creating
     with either this package's own stub() function or a similar
     with_mock() facility present in the 'testthat' package.
 License: MIT + file LICENSE
-URL: https://github.com/jfiksel/mockery
-BugReports: https://github.com/jfiksel/mockery/issues
+URL: https://github.com/r-lib/mockery
+BugReports: https://github.com/r-lib/mockery/issues
 Imports:
     testthat
 Suggests:
