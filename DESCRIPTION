@@ -1,32 +1,33 @@
 Package: mockery
-Version: 0.4.2.9000
 Title: Mocking Library for R
-Description:
-    The two main functionalities of this package are creating mock
-    objects (functions) and selectively intercepting calls to a given
-    function that originate in some other function. It can be used
-    with any testing framework available for R. Mock objects can
-    be injected with either this package's own stub() function or a
-    similar with_mock() facility present in the 'testthat' package.
+Version: 0.4.2.9000
 Authors@R: c(
-    person("Noam", "Finkelstein", role = c("aut")),
-    person("Lukasz", "Bartnik", role = c("aut")),
-    person("Jim", "Hester", role = c("cre"),
-           email = "jim.hester@rstudio.com")
-    )
+    person("Noam", "Finkelstein", role = "aut"),
+    person("Lukasz", "Bartnik", role = "aut"),
+    person("Jim", "Hester", role = "cre"),
+    person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre"))
+  )
+Description: The two main functionalities of this package are creating
+    mock objects (functions) and selectively intercepting calls to a given
+    function that originate in some other function. It can be used with
+    any testing framework available for R. Mock objects can be injected
+    with either this package's own stub() function or a similar
+    with_mock() facility present in the 'testthat' package.
+License: MIT + file LICENSE
 URL: https://github.com/jfiksel/mockery
 BugReports: https://github.com/jfiksel/mockery/issues
 Imports:
     testthat
 Suggests:
     knitr,
-    rmarkdown (>= 1.0),
-    R6
-License: MIT + file LICENSE
+    R6,
+    rmarkdown (>= 1.0)
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+RoxygenNote: 7.1.2
 Collate:
     'expectations.R'
     'mockery.R'
     'mock-object.R'
     'stub.R'
-VignetteBuilder: knitr
-RoxygenNote: 6.0.1
