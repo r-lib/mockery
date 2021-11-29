@@ -41,6 +41,16 @@ NULL
 #' # now g() returns FALSE because f() has been stubbed out
 #' g()
 #' 
+#' # you can stub multiple functions by calling stub() multiple times 
+#' f <- function() TRUE
+#' g <- function() TRUE
+#' h <- function() any(f(), g())
+#' stub(h, 'f', FALSE)
+#' stub(h, 'g', FALSE)
+#' 
+#' # now h() returns FALSE because both f() and g() have been stubbed out
+#' h()
+#' 
 `stub` <- function (where, what, how, depth=1)
 {
     # `where` needs to be a function
@@ -74,7 +84,14 @@ mock_through_tree <- function(tree, what, how) {
                 }
 
                 environment(func) <- func_env
+                locked <- exists(where_name, parent_env, inherits = FALSE) && bindingIsLocked(where_name, parent_env)
+                if (locked) {
+                  unlockBinding(where_name, parent_env)
+                }
                 assign(where_name, func, parent_env)
+                if (locked) {
+                  lockBinding(where_name, parent_env)
+                }
             }
         }
   }

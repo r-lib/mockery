@@ -343,3 +343,19 @@ test_that("Does not error if function contains double quoted assignment function
     stub(f, "base::names<-", function(x, value) stats::setNames(x, "d"))
     expect_equal(f(1, "b"), c(d = 1))
 })
+
+h = function(x) x
+g = function(x) h(x)
+f = function(x) g(x)
+
+locked_f_env = new.env(parent = baseenv())
+assign('g', g, locked_f_env)
+assign('h', h, locked_f_env)
+environment(f) <- locked_f_env
+lockEnvironment(locked_f_env, bindings=TRUE)
+
+test_that('stubs locked functions', {
+    stub_string = 'called stub!'
+    stub(f, 'h', stub_string, depth=2)
+    expect_equal(f('not stub'), 'called stub!')
+})
