@@ -86,7 +86,7 @@ mock_through_tree <- function(tree, what, how) {
                 environment(func) <- func_env
                 locked <- exists(where_name, parent_env, inherits = FALSE) && bindingIsLocked(where_name, parent_env)
                 if (locked) {
-                  unlockBinding(where_name, parent_env)
+                  baseenv()$unlockBinding(where_name, parent_env)
                 }
                 assign(where_name, func, parent_env)
                 if (locked) {
