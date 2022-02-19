@@ -6,3 +6,4 @@
 ^script\.R$
 ^CRAN-RELEASE$
 ^MAINTENANCE\.md$
+^revdep$
