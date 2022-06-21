@@ -19,6 +19,7 @@ BugReports: https://github.com/r-lib/mockery/issues
 Imports:
     testthat
 Suggests:
+    covr,
     knitr,
     R6,
     rmarkdown (>= 1.0)

@@ -7,3 +7,5 @@
 ^CRAN-RELEASE$
 ^MAINTENANCE\.md$
 ^revdep$
+^codecov\.yml$
+^\.github$
