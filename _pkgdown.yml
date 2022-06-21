@@ -1,0 +1,17 @@
+url: https://mockery.r-lib.org
+
+home:
+  title: Mocking Library for R
+
+authors:
+  Hadley Wickham:
+    href: http://hadley.nz
+
+template:
+  bootstrap: 5
+  # includes:
+  #   in_header:
+  #     <script defer data-domain="mockery.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+
+development:
+  mode: auto
