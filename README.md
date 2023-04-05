@@ -24,6 +24,19 @@ install.packages('devtools')
 devtools::install_github('r-lib/mockery')
 ```
 
+### Usage
+
+To use mockery in your own package, you should list it under `Suggests` in your
+`DESCRIPTION` file. You can do so with the usethis package.
+
+```R
+# If you don't have usethis installed yet:
+install.packages("usethis")
+
+# Then:
+usethis::use_package("mockery", type = "Suggests")
+```
+
 ### Testing
 
 Mockery provides the capacity for stubbing out functions and for verifying
