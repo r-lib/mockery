@@ -61,15 +61,16 @@ NULL
     # `what` needs to be a character value
     stopifnot(is.character(what), length(what) == 1)
 
-    test_env <- parent.frame()
-    manipulable = clone.environment(environment(where))
-    original = clone.environment(environment(where))
+    # set environment on where
+    original = environment(where)
+    manipulable = clone.environment(original)
     environment(where) = manipulable
+
+    test_env <- parent.frame()
     tree <- build_function_tree(test_env, where, where_name, depth)
 
     mock_through_tree(tree, what, how)
     withr::defer_parent(cleanup(original, where))
-
 }
 
 cleanup = function (restore, where) {
