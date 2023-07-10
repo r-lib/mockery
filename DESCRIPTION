@@ -17,7 +17,9 @@ License: MIT + file LICENSE
 URL: https://github.com/r-lib/mockery
 BugReports: https://github.com/r-lib/mockery/issues
 Imports:
-    testthat
+    testthat,
+    withr,
+    restorepoint
 Suggests:
     knitr,
     R6,

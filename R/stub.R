@@ -1,3 +1,5 @@
+library(restorepoint)
+library(withr)
 
 #' Replace a function with a stub.
 #'
@@ -60,9 +62,18 @@ NULL
     stopifnot(is.character(what), length(what) == 1)
 
     test_env <- parent.frame()
+    manipulable = clone.environment(environment(where))
+    original = clone.environment(environment(where))
+    environment(where) = manipulable
     tree <- build_function_tree(test_env, where, where_name, depth)
 
     mock_through_tree(tree, what, how)
+    withr::defer_parent(cleanup(original, where))
+
+}
+
+cleanup = function (restore, where) {
+    environment(where) = restore
 }
 
 mock_through_tree <- function(tree, what, how) {

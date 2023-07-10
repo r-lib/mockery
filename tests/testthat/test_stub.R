@@ -359,3 +359,36 @@ test_that('stubs locked functions', {
     stub(f, 'h', stub_string, depth=2)
     expect_equal(f('not stub'), 'called stub!')
 })
+
+# tests for depth bug, from https://github.com/r-lib/mockery/issues/20#issue-280702346
+h = function()1
+g = function()h()
+f = function()g()
+
+test_that("stubbing works in a non-nested function", {
+	expect_equal(g(), 1)
+	stub(g, "h", 2)
+	expect_equal(g(), 2)
+})
+test_that("stubs do not carry over between test blocks", {
+	expect_equal(g(), 1)
+})
+
+test_that("stubbing works inside a nested function", {
+	expect_equal(f(), 1)
+	stub(f, "h", 2, depth=2)
+	expect_equal(f(), 2)
+})
+test_that("nested stubs do not carry over between test blocks", {
+	expect_equal(f(), 1)
+})
+
+g = function(y) y
+f = function(x) g(x) + 1
+r = function(x) g(x) + f(x)
+test_that('only calls from what are stubbed', {
+	stub(r, 'g', 100, depth=2)
+	expect_equal(r(1), 201)
+	expect_equal(g(1), 1)
+	expect_equal(f(1), 2)
+})
