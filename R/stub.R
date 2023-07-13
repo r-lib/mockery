@@ -1,6 +1,3 @@
-library(restorepoint)
-library(withr)
-
 #' Replace a function with a stub.
 #'
 #' The result of calling \code{stub} is that, when \code{where}
@@ -63,7 +60,7 @@ NULL
 
     # set environment on where
     original = environment(where)
-    manipulable = clone.environment(original)
+    manipulable = restorepoint::clone.environment(original)
     environment(where) = manipulable
 
     test_env <- parent.frame()
