@@ -1,5 +1,7 @@
 # mockery (development version)
 
+* Fixes for `R CMD check`
+
 # mockery 0.4.3
 
 * Hadley Wickham is now the maintainer.
