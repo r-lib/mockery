@@ -1,7 +1,9 @@
 # mockery
-[![Coverage Status](https://img.shields.io/codecov/c/github/r-lib/mockery/master.svg)](https://app.codecov.io/github/r-lib/mockery?branch=master)
+<!-- badges: start -->
 [![CRAN version](http://www.r-pkg.org/badges/version/mockery)](https://CRAN.r-project.org/package=mockery)
-[![Downloads](http://cranlogs.r-pkg.org/badges/mockery)](https://CRAN.r-project.org/package=mockery)
+[![R-CMD-check](https://github.com/r-lib/mockery/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/mockery/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/r-lib/mockery/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-lib/mockery?branch=main)
+<!-- badges: end -->
 
 A mocking library for R.
 
