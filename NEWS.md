@@ -1,4 +1,4 @@
-# mockery (development version)
+# mockery 0.4.4
 
 * Fixes for `R CMD check`
 
