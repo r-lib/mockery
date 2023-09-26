@@ -5,6 +5,7 @@
 #' package aims at fixing that.
 #'
 #' @docType package
+#' @aliases mockery-package
 #' @name mockery
 #'
 #' @examples
