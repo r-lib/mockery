@@ -1,6 +1,5 @@
 # mockery
-[![Travis-CI Build Status](https://travis-ci.org/r-lib/mockery.svg?branch=master)](https://travis-ci.org/r-lib/mockery)
-[![Coverage Status](https://img.shields.io/codecov/c/github/r-lib/mockery/master.svg)](https://codecov.io/github/r-lib/mockery?branch=master)
+[![Coverage Status](https://img.shields.io/codecov/c/github/r-lib/mockery/master.svg)](https://app.codecov.io/github/r-lib/mockery?branch=master)
 [![CRAN version](http://www.r-pkg.org/badges/version/mockery)](https://CRAN.r-project.org/package=mockery)
 [![Downloads](http://cranlogs.r-pkg.org/badges/mockery)](https://CRAN.r-project.org/package=mockery)
 
