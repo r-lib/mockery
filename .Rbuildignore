@@ -9,3 +9,4 @@
 ^revdep$
 ^\.github$
 ^codecov\.yml$
+^CRAN-SUBMISSION$
