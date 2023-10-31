@@ -16,6 +16,8 @@ Description: The two main functionalities of this package are creating
 License: MIT + file LICENSE
 URL: https://github.com/r-lib/mockery
 BugReports: https://github.com/r-lib/mockery/issues
+Depends: 
+    R (>= 3.6)
 Imports:
     testthat
 Suggests:
