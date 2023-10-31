@@ -5,7 +5,7 @@ Authors@R: c(
     person("Noam", "Finkelstein", role = "aut"),
     person("Lukasz", "Bartnik", role = "aut"),
     person("Jim", "Hester", role = "aut"),
-    person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre"))
+    person("Hadley", "Wickham", , "hadley@posit.co", role = c("aut", "cre"))
   )
 Description: The two main functionalities of this package are creating
     mock objects (functions) and selectively intercepting calls to a given
@@ -16,6 +16,8 @@ Description: The two main functionalities of this package are creating
 License: MIT + file LICENSE
 URL: https://github.com/r-lib/mockery
 BugReports: https://github.com/r-lib/mockery/issues
+Depends: 
+    R (>= 3.6)
 Imports:
     testthat
 Suggests:

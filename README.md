@@ -1,11 +1,15 @@
 # mockery
 <!-- badges: start -->
+[![Lifecycle: superseded](https://img.shields.io/badge/lifecycle-superseded-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#superseded)
 [![CRAN version](http://www.r-pkg.org/badges/version/mockery)](https://CRAN.r-project.org/package=mockery)
 [![R-CMD-check](https://github.com/r-lib/mockery/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/mockery/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/r-lib/mockery/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-lib/mockery?branch=main)
 <!-- badges: end -->
 
 A mocking library for R.
+
+This package is superseded and we no longer recommend that you use it for new tests. 
+We instead recommend `testthat::local_mocked_bindings()`.
 
 ### Installation
 
@@ -18,11 +22,8 @@ install.packages('mockery')
 To install directly from the source code in this GitHub repository:
 
 ```R
-# If you don't have devtools installed yet:
-install.packages('devtools')
-
-# Then:
-devtools::install_github('r-lib/mockery')
+# install.packages('pak')
+pak::pak('r-lib/mockery')
 ```
 
 ### Testing

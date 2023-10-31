@@ -10,3 +10,4 @@
 ^\.github$
 ^codecov\.yml$
 ^CRAN-SUBMISSION$
+^LICENSE\.md$
