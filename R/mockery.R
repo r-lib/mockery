@@ -4,10 +4,6 @@
 #' they don't come with a lot of support for mock objects. This
 #' package aims at fixing that.
 #'
-#' @docType package
-#' @aliases mockery-package
-#' @name mockery
-#'
 #' @examples
 #' library(mockery)
 #' 
@@ -32,4 +28,4 @@
 #'   expect_call(m, 1, read.csv('data.csv'))
 #' })
 #' }
-NULL
+"_PACKAGE"

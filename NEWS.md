@@ -1,5 +1,7 @@
 # mockery (development version)
 
+* Documentation fixes for `R CMD check`
+
 # mockery 0.4.4
 
 * Fixes for `R CMD check`

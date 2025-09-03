@@ -26,7 +26,7 @@ is invoked and when it internally makes a call to \code{what},
 }
 \details{
 This is much more limited in scope in comparison to
-\code{\link[testthat]{with_mock}} which effectively replaces
+`testthat::with_mock()` which effectively replaces
 \code{what} everywhere. In other words, when using \code{with_mock}
 and regardless of the number of intermediate calls, \code{how} is
 always called instead of \code{what}. However, using this API,
