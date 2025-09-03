@@ -12,7 +12,7 @@ Description: The two main functionalities of this package are creating
     function that originate in some other function. It can be used with
     any testing framework available for R. Mock objects can be injected
     with either this package's own stub() function or a similar
-    with_mock() facility present in the 'testthat' package.
+    with_mocked_binding() facility present in the 'testthat' package.
 License: MIT + file LICENSE
 URL: https://github.com/r-lib/mockery
 BugReports: https://github.com/r-lib/mockery/issues
@@ -27,7 +27,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.2.9000
 Collate:
     'expectations.R'
     'mockery.R'

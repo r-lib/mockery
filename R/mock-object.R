@@ -25,8 +25,7 @@
 #' @param m A \code{\link{mock}}ed function.
 #' @param x A \code{\link{mock}}ed function.
 #'
-#' @return \code{mock()} returns a mocked function which can be then used
-#'         with \code{\link{with_mock}}.
+#' @return \code{mock()} returns a mocked function which can be then used elsewhere}.
 #' @return \code{mock_args()} returns a \code{list} of \code{list}s
 #'         of argument values.
 #' @return \code{mock_calls()} returns a \code{list} of \code{call}s.
@@ -34,29 +33,36 @@
 #'
 #' @examples
 #' library(testthat)
-#'
-#' m <- mock(1)
-#' with_mock(summary = m, {
-#'   expect_equal(summary(iris), 1)
+#' 
+#' f <- function(x) summary(x)
+#' local({
+#'   m <- mock(1)
+#'   stub(f, 'summary', m)
+#'  
+#'   expect_equal(f(iris), 1)
 #'   expect_called(m, 1)
-#'   expect_call(m, 1, summary(iris))
+#'   expect_call(m, 1, summary(x))
 #'   expect_args(m, 1, iris)
 #' })
 #'
 #' # multiple return values
-#' m <- mock(1, "a", sqrt(3))
-#' with_mock(summary = m, {
-#'   expect_equal(summary(iris), 1)
-#'   expect_equal(summary(iris), "a")
-#'   expect_equal(summary(iris), 1.73, tolerance = .01)
+#' local({ 
+#'   m <- mock(1, "a", sqrt(3))
+#'   stub(f, 'summary', m)
+#' 
+#'   expect_equal(f(iris), 1)
+#'   expect_equal(f(iris), "a")
+#'   expect_equal(f(iris), 1.73, tolerance = .01)
 #' })
 #'
 #' # side effects
-#' m <- mock(1, 2, stop("error"))
-#' with_mock(summary = m, {
-#'   expect_equal(summary(iris), 1)
-#'   expect_equal(summary(iris), 2)
-#'   expect_error(summary(iris), "error")
+#' local({
+#'   m <- mock(1, 2, stop("error"))
+#'   stub(f, 'summary', m)
+#' 
+#'   expect_equal(f(iris), 1)
+#'   expect_equal(f(iris), 2)
+#'   expect_error(f(iris), "error")
 #' })
 #'
 #' # accessing call expressions
@@ -76,7 +82,6 @@
 #' args <- mock_args(m)
 #' expect_equal(args[[1]], list(x = 1))
 #' expect_equal(args[[2]], list(y = 2))
-#'
 #'
 #' @name mock
 NULL
@@ -144,3 +149,5 @@ length.mock <- function (x)
   length(environment(x)$calls)
 }
 
+summary <- NULL
+lm <- NULL

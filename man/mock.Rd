@@ -28,8 +28,7 @@ will fail if called too many times.}
 \item{x}{A \code{\link{mock}}ed function.}
 }
 \value{
-\code{mock()} returns a mocked function which can be then used
-        with \code{\link{with_mock}}.
+
 
 \code{mock_args()} returns a \code{list} of \code{list}s
         of argument values.
@@ -59,28 +58,35 @@ values of arguments passed to each of these calls.
 \examples{
 library(testthat)
 
-m <- mock(1)
-with_mock(summary = m, {
-  expect_equal(summary(iris), 1)
+f <- function(x) summary(x)
+local({
+  m <- mock(1)
+  stub(f, 'summary', m)
+ 
+  expect_equal(f(iris), 1)
   expect_called(m, 1)
-  expect_call(m, 1, summary(iris))
+  expect_call(m, 1, summary(x))
   expect_args(m, 1, iris)
 })
 
 # multiple return values
-m <- mock(1, "a", sqrt(3))
-with_mock(summary = m, {
-  expect_equal(summary(iris), 1)
-  expect_equal(summary(iris), "a")
-  expect_equal(summary(iris), 1.73, tolerance = .01)
+local({ 
+  m <- mock(1, "a", sqrt(3))
+  stub(f, 'summary', m)
+
+  expect_equal(f(iris), 1)
+  expect_equal(f(iris), "a")
+  expect_equal(f(iris), 1.73, tolerance = .01)
 })
 
 # side effects
-m <- mock(1, 2, stop("error"))
-with_mock(summary = m, {
-  expect_equal(summary(iris), 1)
-  expect_equal(summary(iris), 2)
-  expect_error(summary(iris), "error")
+local({
+  m <- mock(1, 2, stop("error"))
+  stub(f, 'summary', m)
+
+  expect_equal(f(iris), 1)
+  expect_equal(f(iris), 2)
+  expect_error(f(iris), "error")
 })
 
 # accessing call expressions
@@ -100,6 +106,5 @@ expect_equal(length(m), 2)
 args <- mock_args(m)
 expect_equal(args[[1]], list(x = 1))
 expect_equal(args[[2]], list(y = 2))
-
 
 }

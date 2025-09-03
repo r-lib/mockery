@@ -14,18 +14,22 @@ library(mockery)
 
 library(knitr)
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+summary <- NULL
+
+# pretend we're testing a package
+Sys.setenv(TESTTHAT = "true")
+Sys.setenv(TESTTHAT_PKG = "mockery")
 ```
 
-
 Mock object, which is a part of the `mockery` package, started as an
-extension to [testthat](https://github.com/r-lib/testthat)'s `with_mock()`
+extension to [testthat](https://github.com/r-lib/testthat)'s `with_mocked_bindings()`
 facility. Its main purpose was to simplify the replacement (mocking)
-of a given function by means of `with_mock` and the later
+of a given function by means of `with_mocked_bindings` and the later
 verification of actual calls invoked on the replacing function.
 
 The `mockery` package which provides its own stubbing facility, the
 `stub()` function. Here, however, we will look only at how `mock()`
-can be used together with `with_mock()`.
+can be used together with `with_mocked_bindings()`.
 
 
 ## Mocks
@@ -72,14 +76,12 @@ return values, the _mock_ function will throw an exception. However, one
 can also choose to cycle through the list of retun values by setting the
 `cycle` argument of `mock()` to `TRUE`.
 
-```{r cycle_no, eval=FALSE}
+```{r cycle_no}
+#| error: true
 m <- mock(1, 2)
 m()
-#> [1] 1
 m()
-#> [1] 2
 m()
-#> Error: too many calls to mock object and cycle set to FALSE
 ```
 
 ```{r cycle_true}
@@ -126,11 +128,11 @@ m()
 ```
 
 
-## Integration with `with_mock()`
+## Integration with `with_mocked_bindings()`
 
 ### Simple integration
 
-Using mock functions with `testthat`'s `with_mock()` is pretty
+Using mock functions with `testthat`'s `with_mocked_bindings()` is pretty
 straightforward.
 
 ```{r with_mock, message=FALSE}
@@ -138,7 +140,7 @@ library(testthat)
 
 m <- mock(1)
 f <- function (x) summary(x)
-with_mock(f = m, {
+with_mocked_bindings(f = m, {
   expect_equal(f(iris), 1)
 })
 ```
@@ -166,11 +168,10 @@ expect_called(m, 2)
 
 And here is what happens when we get the number of calls wrong.
 
-```{r expect_called_error, eval=FALSE}
+```{r expect_called_error}
+#| error: true
 expect_called(m, 1)
-#> Error: mock object has not been called 1 time.
 expect_called(m, 3)
-#> Error: mock object has not been called 3 times.
 ```
 
 ### Verify the call signature
@@ -181,7 +182,7 @@ It takes as arguments: the mock function, the call number, expected call.
 
 ```{r expect_call}
 m <- mock(1)
-with_mock(summary = m, {
+with_mocked_bindings(summary = m, {
   summary(iris)
 })
 
@@ -190,7 +191,8 @@ expect_call(m, 1, summary(iris))
 
 And here is what happens if the call doesn't match.
 
-```{r call_doesnt_match, eval=FALSE}
+```{r call_doesnt_match}
+#| error: true
 expect_call(m, 1, summary(x))
 #> Error: expected call summary(x) does not mach actual call summary(iris).
 ```
@@ -208,26 +210,18 @@ expect_args(m, 1, iris)
 
 Here is what happens if the value turns out to be different.
 
-```{r expect_args_different, eval=FALSE}
+```{r expect_args_different}
+#| error: true
 expect_args(m, 1, iris[-1, ])
-#> Error: arguments to call #1 not equal to expected arguments.
-#> Component 1: Attributes: < Component "row.names": Numeric: lengths (150, 149) differ >
-#> Component 1: Component 1: Numeric: lengths (150, 149) differ
-#> Component 1: Component 2: Numeric: lengths (150, 149) differ
-#> Component 1: Component 3: Numeric: lengths (150, 149) differ
-#> Component 1: Component 4: Numeric: lengths (150, 149) differ
-#> Component 1: Component 5: Lengths: 150, 149
-#> Component 1: Component 5: Lengths (150, 149) differ (string compare on first 149)
-#> Component 1: Component 5: 2 string mismatches
-#> expected argument list does not mach actual one.
 ```
 
 If the call has been made with an explicit argument name the same has
 to appear in `expect_args()`.
 
 ```{r expect_args_named}
+#| error: true
 m <- mock(1)
-with_mock(summary = m, {
+with_mocked_bindings(summary = m, {
   summary(object = iris)
 })
 
@@ -236,11 +230,9 @@ expect_args(m, 1, object = iris)
 
 Omitting the name results in an error.
 
-```{r expect_args_unnamed, eval=FALSE}
+```{r expect_args_unnamed}
+#| error: true
 expect_args(m, 1, iris)
-#> Error: arguments to call #1 not equal to expected arguments.
-#> names for target but not for current
-#> expected argument list does not mach actual one.
 ```
 
 
